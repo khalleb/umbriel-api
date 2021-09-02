@@ -1,0 +1,122 @@
+{
+  "labels": {
+    "activated": "ativado",
+    "inactivated": "inativado"
+  },
+
+  "validations": {
+    "invalid_email": "E-mail inválido",
+    "email_too_long": "E-mail é muito longo. Máximo de 50 caracteres",
+    "enter_the_authentication_token": "Informe o token de autenticação",
+    "enter_token": "Informe o token",
+    "the_email_cannot_be_less_than_characters": "O e-mail não pode ter menos que 7 cacteres",
+    "the_email_cannot_be_longe_than_characters": "O e-mail não pode ter mais que 100 caracteres"
+  },
+
+  "user": {
+    "user": "Usuário",
+    "enter_your_ID": "Informe o ID do usuário",
+    "enter_the_data": "Informe os dados do usuário",
+    "enter_the_name_data": "Informe o nome do usuário",
+    "enter_the_email_data": "Informe o e-mail do usuário",
+    "the_status_of_the_user_could_not_changed": "Não foi possível alterar o status do usuário. Tente novamente",
+    "enter_the_email": "Informe o e-mail",
+    "user_not_found_in_the_database": "Usuário não localizada na base de dados",
+    "enter_full_name": "Informe o nome completo do usuário",
+    "user_name_too_long": "O nome do usuário é muito longo. Máximo de 70 caracteres",
+    "email_already_existing_in_the_database": "E-mail já cadastrado na base de dados",
+    "enter_the_password": "Informe a senha",
+    "enter_the_password_confirmation": "Informe a senha de confirmação",
+    "passwords_do_not_match": "As senhas não são iguais",
+    "was_not_possible_obtain_logged_user_id": "Não foi possível obter o ID do usuário logado",
+    "logged_user_not_found_the_database": "Usuário logado não localizado na base de dados",
+    "user_without_permission_to_register": "Usuário sem permissão para cadastrar",
+    "existing_email": "E-mail já existente. Informe outro",
+    "user_not_found": "Usuário não encontrado",
+    "incorrect_email_password": "E-mail/senha incorretos",
+    "password_recovery": "Recuperação de senha",
+    "password_recovery_send": "E-mail enviado. Verifique sua caixa de entrada",
+    "enter_data_password_recovery": "Informe os dados para a recuperaçã de senha",
+    "enter_data_password_recovery_token": "Informe o token de recuperaçã de senha",
+    "enter_data_password_recovery_token_not_found": "Token inválido",
+    "password_changed_successfully": "Senha alterada com sucesso",
+    "enter_data_password_update": "Informe os dados para alterar a senha",
+    "not_found_in_the_database": "Usuário não localizada na base de dados"
+  },
+
+  "tag": {
+    "tag": "Tag",
+    "enter_your_tag_details": "Informe o ID da tag",
+    "enter_the_data": "Informe os dados da tag",
+    "enter_the_name_data": "Informe o nome da tag",
+    "enter_your_ID": "Informe o ID da Tag",
+    "the_name_cannot_be_longe_than_characters": "O nome não pode ter mais que 50 caracteres",
+    "enter_the_tag_name_for_search": "Informe o nome da tag para pesquisa",
+    "existing_name": "Nome da tag já existente",
+    "logged_tag_not_found_the_database": "Tag não localizada na base de dados",
+    "the_tag_cannot_be_removed": "A tag não pode ser removido. Tente novamente",
+    "registration_removed_successfully": "Tag removida com sucesso",
+    "the_status_of_the_tag_could_not_changed": "Não foi possível alterar o status da tag. Tente novamente"
+  },
+
+  "contact": {
+    "contact": "Contato",
+    "enter_your_ID": "Informe o ID do contato",
+    "enter_the_data": "Informe os dados do contato",
+    "enter_the_name_data": "Informe o nome do contato",
+    "enter_the_email_data": "Informe o e-mail do contato",
+    "the_name_cannot_be_less_than_characters": "O nome não pode ter menos que 3 cacteres",
+    "the_name_cannot_be_longe_than_characters": "O nome não pode ter mais que 100 caracteres",
+    "existing_email": "E-mail já existente. Informe outro",
+    "enter_your_contact_details": "Informe o ID do contato",
+    "the_contact_cannot_be_removed": "O contato não pode ser removido. Tente novamente",
+    "registration_removed_successfully": "Contato removido com sucesso",
+    "contact_not_found_in_the_database": "Contato não localizada na base de dados",
+    "the_status_of_the_contact_could_not_changed": "Não foi possível alterar o status do contato. Tente novamente"
+  },
+
+  "sender": {
+    "sender": "Remetente",
+    "enter_your_ID": "Informe o ID do rementente",
+    "enter_the_data": "Informe os dados do remetente",
+    "enter_the_name_data": "Informe o nome do rementente",
+    "enter_the_email_data": "Informe o e-mail do contato",
+    "the_name_cannot_be_less_than_characters": "O nome não pode ter menos que 3 cacteres",
+    "the_name_cannot_be_longe_than_characters": "O nome não pode ter mais que 100 caracteres",
+    "existing_email": "E-mail já existente. Informe outro",
+    "enter_your_sender_details": "Informe o ID do remetente",
+    "the_sender_cannot_be_removed": "O remetente não pode ser removido. Tente novamente",
+    "registration_removed_successfully": "Remetente removido com sucesso",
+    "sender_not_found_in_the_database": "Remetente não localizada na base de dados",
+    "the_status_of_the_sender_could_not_changed": "Não foi possível alterar o status do remetente. Tente novamente"
+  },
+
+  "template": {
+    "template": "Template",
+    "enter_your_template_details": "Informe o ID do template",
+    "enter_the_data": "Informe os dados do template",
+    "enter_the_name_data": "Informe o nome do template",
+    "enter_the_content": "Informe o conteúdo do template",
+    "the_name_cannot_be_longe_than_characters": "O nome não pode ter mais que 100 caracteres",
+    "the_name_cannot_be_longe_than_characters_content": "O conteúdo não pode ter mais que 15.000 caracteres",
+    "existing_name": "Nome do template já existente",
+    "existing_name_identified": "Nome do indentificado já existente",
+    "the_tag_cannot_be_removed": "O template não pode ser removido. Tente novamente",
+    "registration_removed_successfully": "Template removido com sucesso",
+    "template_not_found_in_the_database": "Template não localizada na base de dados",
+    "the_status_of_the_tag_could_not_changed": "Não foi possível alterar o status do template. Tente novamente",
+    "base_template_not_found": "Cadastre um template base",
+    "enter_the_template_ID": "Informe o indentificado do template"
+  },
+
+  "message": {
+    "message": "Mensagem",
+    "enter_the_data": "Informe os dados da mensagem",
+    "enter_your_message_details": "Informe o ID da mensagem",
+    "the_message_cannot_be_removed": "A mensagem não pode ser removida. Tente novamente",
+    "registration_removed_successfully": "Mensagem removida com sucesso",
+    "enter_the_subject": "Informe o assunto",
+    "enter_the_body": "Informe o corpo do assunto",
+    "message_not_found_in_the_database": "Mensagem não localizada na base de dados"
+  }
+}
