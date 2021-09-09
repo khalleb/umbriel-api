@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - $HOME/docker-volume/postgresql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: redis-server --requirepass ${REDIS_PASS}
+    restart: always
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - $HOME/docker-volume/redis:/data

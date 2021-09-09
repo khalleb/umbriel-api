@@ -61,4 +61,13 @@ router.post(
   (request: Request, response: Response) => controller.index(request, response, nameService),
 );
 
+router.delete(
+  `/delete-tag`,
+  ensureAuthenticated,
+  celebrate({
+    [Segments.BODY]: { id_contact: Joi.string().required().uuid(), id_tag: Joi.string().required().uuid() },
+  }),
+  controller.removeTag,
+);
+
 export default router;

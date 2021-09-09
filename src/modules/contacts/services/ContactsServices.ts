@@ -168,5 +168,25 @@ class ContactsServices implements IBaseService {
     const list = await this._contactsRepository.index(data);
     return list;
   }
+
+  public async removeTag(req: Request): Promise<string> {
+    const { id_contact, id_tag } = req?.body;
+    if (!id_contact) {
+      throw new AppError(i18n('contact.enter_your_contact_details'));
+    }
+    if (!id_tag) {
+      throw new AppError(i18n('tag.enter_your_ID'));
+    }
+    const contact = await this._contactsRepository.findByIdWithTags(id_contact);
+    if (!contact) {
+      throw new AppError(i18n('contact.contact_not_found_in_the_database'));
+    }
+    if (!contact?.tags || contact.tags.length < 1) {
+      throw new AppError(i18n('contact.contact_not_found_in_the_database'));
+    }
+    contact.tags = contact?.tags?.filter(tag => tag.id !== id_tag);
+    await this._contactsRepository.update(contact);
+    return i18n('tag.registration_removed_successfully');
+  }
 }
 export default ContactsServices;
