@@ -41,10 +41,13 @@ class EnsureAuthenticatedMiddleware {
 
       return next();
     } catch (error) {
-      if (error.message === 'jwt expired') {
-        throw new AppError('token.expired', 401);
+      if (error instanceof AppError) {
+        if (error?.message === 'jwt expired') {
+          throw new AppError('token.expired', 401);
+        }
+        throw new AppError(error.message, error.statusCode);
       }
-      throw new AppError(error.message, error.statusCode);
+      throw new AppError('authenticated');
     }
   }
 }
