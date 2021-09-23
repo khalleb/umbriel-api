@@ -31,7 +31,7 @@ class RefreshTokenService {
     }
     const userToken = await this._cacheProvider.recover(token);
     if (!userToken) {
-      throw new AppError(i18n('user.refresh_token_does_not_exists'));
+      throw new AppError(i18n('validations.refresh_token_does_not_exists'));
     }
 
     const { user_id, email, role } = userToken as ITokenBodyCache;
@@ -46,8 +46,8 @@ class RefreshTokenService {
       user_id,
       email,
       role,
-      authConfig.jwt.secret_refresh_token,
-      authConfig.jwt.expires_in_refresh_token,
+      authConfig.jwt.secret_token,
+      authConfig.jwt.expires_in_token,
     );
 
     const bodyCacheToke: ITokenBodyCache = {

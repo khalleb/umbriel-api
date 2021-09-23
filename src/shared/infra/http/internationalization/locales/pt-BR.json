@@ -10,7 +10,8 @@
     "enter_the_authentication_token": "Informe o token de autenticação",
     "enter_token": "Informe o token",
     "the_email_cannot_be_less_than_characters": "O e-mail não pode ter menos que 7 cacteres",
-    "the_email_cannot_be_longe_than_characters": "O e-mail não pode ter mais que 100 caracteres"
+    "the_email_cannot_be_longe_than_characters": "O e-mail não pode ter mais que 100 caracteres",
+    "refresh_token_does_not_exists": "Token refresh não localizado"
   },
 
   "user": {

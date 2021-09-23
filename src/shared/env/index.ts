@@ -15,8 +15,6 @@ const env = cleanEnv(process.env, {
 
   JWT_APP_SECRET: str({ devDefault: '' }),
   JWT_APP_EXPIRES: str({ example: `15m`, devDefault: `15m` }),
-  JWT_APP_SECRET_REFRESH_TOKEN: str({ devDefault: '' }),
-  JWT_APP_EXPIRES_REFRESH_TOKEN: str({ example: `30d`, devDefault: `30d` }),
   JWT_APP_EXPIRES_REFRESH_TOKEN_DAYS: num({ example: `30`, devDefault: 30 }),
   JWT_BLACK_LIST: str({ example: `UMBRIEL_JWT_BLACK_LIST` }),
 
