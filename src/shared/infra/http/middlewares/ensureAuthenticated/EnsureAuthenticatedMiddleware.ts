@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
+import httpStatus from 'http-status';
 import { inject, injectable } from 'tsyringe';
 
 import authConfig from '@config/auth';
@@ -41,11 +42,14 @@ class EnsureAuthenticatedMiddleware {
 
       return next();
     } catch (error) {
-      if (error instanceof AppError) {
-        if (error?.message === 'jwt expired') {
-          throw new AppError('token.expired', 401);
+      if (error instanceof Error) {
+        if (error?.message === 'jwt expired' || error.name === 'TokenExpiredError') {
+          throw new AppError('token.expired', httpStatus.UNAUTHORIZED);
         }
-        throw new AppError(error.message, error.statusCode);
+        if (error instanceof AppError) {
+          throw new AppError(error.message, error.statusCode);
+        }
+        throw new AppError(error.message, httpStatus.BAD_REQUEST);
       }
       throw new AppError('authenticated');
     }
