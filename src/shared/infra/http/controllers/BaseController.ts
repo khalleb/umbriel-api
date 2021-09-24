@@ -44,8 +44,7 @@ export abstract class BaseController<T extends IBaseService> {
     const service = container.resolve<T>(serviceName);
     const datasPagination: IPagination = request.body;
     const data = await (service.index && service.index(datasPagination));
-    response.set('x-total-count', data?.total || 0);
-    return response.json(classToClass(data?.list || []));
+    return response.json(classToClass(data));
   }
 }
 
