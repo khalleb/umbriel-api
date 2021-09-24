@@ -30,6 +30,11 @@ class ContactsRepository extends BaseRepository<Contacts> implements IContactsRe
       .getMany();
     return contacts;
   }
+
+  public async inscribeDescribe(contact: Contacts): Promise<boolean> {
+    await this.ormRepository.save(contact);
+    return true;
+  }
 }
 
 export default ContactsRepository;

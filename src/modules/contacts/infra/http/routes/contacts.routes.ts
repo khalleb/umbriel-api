@@ -70,4 +70,11 @@ router.delete(
   controller.removeTag,
 );
 
+router.get(
+  `/inscribe-describe`,
+  ensureAuthenticated,
+  celebrate({ [Segments.QUERY]: { id: Joi.string().required().uuid() } }),
+  controller.inscribeDescribe,
+);
+
 export default router;

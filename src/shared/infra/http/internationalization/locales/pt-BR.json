@@ -73,7 +73,9 @@
     "the_contact_cannot_be_removed": "O contato não pode ser removido. Tente novamente",
     "registration_removed_successfully": "Contato removido com sucesso",
     "contact_not_found_in_the_database": "Contato não localizada na base de dados",
-    "the_status_of_the_contact_could_not_changed": "Não foi possível alterar o status do contato. Tente novamente"
+    "the_status_of_the_contact_could_not_changed": "Não foi possível alterar o status do contato. Tente novamente",
+    "inscribe": "Inscrito",
+    "describe": "Desinscrito"
   },
 
   "sender": {

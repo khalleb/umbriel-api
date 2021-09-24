@@ -117,7 +117,7 @@ class TagsServices implements IBaseService {
   }
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {
-    data.status = 'both';
+    data.status = data?.status || 'both';
     const list = await this._tagsRepository.index(data);
     return list;
   }

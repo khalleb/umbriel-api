@@ -64,6 +64,8 @@ export default class BaseRepository<T> implements IBaseRepository<T> {
       orderBySort: data?.orderBySort,
       order: data?.order,
       select: this.buildAttributes(data.select, nameTable),
+      searchQueryColumn: data?.searchQueryColumn,
+      searchQueryValue: data?.searchQueryValue,
     });
     return pagination;
   }
