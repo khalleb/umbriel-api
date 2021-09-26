@@ -6,6 +6,7 @@ import MessagesServices from '@modules/messages/services/MessagesServices';
 
 import { RoutesType } from '@shared/infra/commons/constants';
 import { ensureAuthenticated } from '@shared/infra/http/middlewares/ensureAuthenticated';
+import { paginationRoute } from '@shared/infra/http/routes/validation.routes';
 
 import MessagesController from '../controllers/MessagesController';
 
@@ -42,6 +43,13 @@ router.delete(
   ensureAuthenticated,
   celebrate({ [Segments.QUERY]: { id: Joi.string().required().uuid() } }),
   (request: Request, response: Response) => controller.delete(request, response, nameService),
+);
+
+router.post(
+  `/${RoutesType.INDEX}`,
+  ensureAuthenticated,
+  celebrate({ [Segments.BODY]: paginationRoute }),
+  (request: Request, response: Response) => controller.index(request, response, nameService),
 );
 
 // router.get(`/send`, celebrate({ [Segments.QUERY]: { id: Joi.string().required().uuid() } }), controller.send);

@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class initTables1630549722185 implements MigrationInterface {
-  name = 'initTables1630549722185';
+export class initTables1632613051331 implements MigrationInterface {
+  name = 'initTables1632613051331';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -17,7 +17,7 @@ export class initTables1630549722185 implements MigrationInterface {
       `CREATE TABLE "templates" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "active" boolean NOT NULL DEFAULT true, "version" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "created_by" character varying DEFAULT 'UNDEFINED', "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_by" character varying, "updated_access" text, "inactivated_at" TIMESTAMP, "inactivated_by" character varying, "inactivated_access" text, "name" character varying NOT NULL, "content" character varying NOT NULL, CONSTRAINT "PK_515948649ce0bbbe391de702ae5" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "messages" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "active" boolean NOT NULL DEFAULT true, "version" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "created_by" character varying DEFAULT 'UNDEFINED', "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_by" character varying, "updated_access" text, "inactivated_at" TIMESTAMP, "inactivated_by" character varying, "inactivated_access" text, "template_id" uuid, "sender_id" uuid NOT NULL, "subject" character varying NOT NULL, "body" character varying, CONSTRAINT "PK_18325f38ae6de43878487eff986" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "messages" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "active" boolean NOT NULL DEFAULT true, "version" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "created_by" character varying DEFAULT 'UNDEFINED', "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_by" character varying, "updated_access" text, "inactivated_at" TIMESTAMP, "inactivated_by" character varying, "inactivated_access" text, "template_id" uuid, "sender_id" uuid NOT NULL, "subject" character varying NOT NULL, "body" character varying, "sent_at" TIMESTAMP, CONSTRAINT "PK_18325f38ae6de43878487eff986" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(`CREATE TYPE "users_role_enum" AS ENUM('admin', 'client')`);
     await queryRunner.query(

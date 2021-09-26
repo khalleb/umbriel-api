@@ -10,7 +10,7 @@ class MessagesRepository extends BaseRepository<Messages> implements IMessagesRe
   }
 
   public async findByIdWithTags(id: string): Promise<Messages | undefined> {
-    const contact = await this.ormRepository.findOne({ where: { id }, relations: ['tags'] });
+    const contact = await this.ormRepository.findOne({ where: { id }, relations: ['tags', 'sender'] });
     return contact;
   }
 }

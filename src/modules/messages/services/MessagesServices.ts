@@ -14,6 +14,7 @@ import ITemplatesRepository from '@modules/templates/repositories/ITemplatesRepo
 import AppError from '@shared/errors/AppError';
 import { i18n } from '@shared/infra/http/internationalization';
 import IBaseService from '@shared/infra/services/IBaseService';
+import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/Pagination';
 
 import { IMessageDTO } from '../dtos/IMessagesDTO';
 import Messages from '../infra/typeorm/entities/Messages';
@@ -105,6 +106,12 @@ class MessagesServices implements IBaseService {
     }
     const message = await this._messagesRepository.findByIdWithTags(id);
     return message;
+  }
+
+  public async index(data: IPagination): Promise<IPaginationAwareObject> {
+    data.status = 'both';
+    const list = await this._messagesRepository.index(data);
+    return list;
   }
 }
 export default MessagesServices;

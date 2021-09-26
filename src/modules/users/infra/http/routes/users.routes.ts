@@ -24,6 +24,7 @@ const datasCreateUpdate = {
 
 router.post(
   `/${RoutesType.STORE}`,
+  ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
       ...datasCreateUpdate,

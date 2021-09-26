@@ -36,5 +36,8 @@ class Messages extends EntityBase {
 
   @Column({ nullable: true })
   body?: string;
+
+  @Column({ nullable: true })
+  sent_at?: Date;
 }
 export default Messages;
