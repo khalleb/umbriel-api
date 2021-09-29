@@ -4,6 +4,8 @@ import { cleanEnv, str, port, url, num } from 'envalid';
 const env = cleanEnv(process.env, {
   NODE_ENV: str({ choices: ['development', 'test', 'production'], example: 'development' }),
 
+  CORS_HOSTS: str({ example: 'http://localhost:3000;localhost:3000' }),
+
   APP_API_PORT: port({ example: '3333' }),
   APP_API_URL: url({
     example: `http://localhost:3333`,

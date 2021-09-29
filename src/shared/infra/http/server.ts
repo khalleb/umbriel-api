@@ -42,14 +42,7 @@ if (!env.isDevelopment) {
     next();
   });
 
-  const whitelist = [
-    'http://localhost:4200',
-    'localhost:4200',
-    'http://localhost:4444',
-    'localhost:4444',
-    'http://localhost:3000',
-    'localhost:3000',
-  ];
+  const whitelist = env.CORS_HOSTS.split(';');
 
   const corsOptions: CorsOptions = {
     origin(origin, callback) {
