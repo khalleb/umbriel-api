@@ -1,7 +1,7 @@
 import { env } from '@shared/env';
 
 interface IMailConfig {
-  driver: 'ethereal';
+  driver: 'ethereal' | 'ses';
 
   defaults: {
     from: {

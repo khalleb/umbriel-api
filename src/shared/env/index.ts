@@ -38,5 +38,7 @@ const env = cleanEnv(process.env, {
   MAIL_DRIVER: str({ choices: ['ethereal', 'ses', 'nodemailer'] }),
 
   STORAGE_MAX_SIZE_MEGABYTES: num({ example: '5' }),
+
+  QUEUE_DRIVER: str({ choices: ['BULL', 'SYNC'], devDefault: 'BULL' }),
 });
 export { env };

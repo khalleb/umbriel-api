@@ -52,6 +52,6 @@ router.post(
   (request: Request, response: Response) => controller.index(request, response, nameService),
 );
 
-// router.get(`/send`, celebrate({ [Segments.QUERY]: { id: Joi.string().required().uuid() } }), controller.send);
+router.get(`/send`, celebrate({ [Segments.QUERY]: { id: Joi.string().required().uuid() } }), controller.send);
 
 export default router;

@@ -1,12 +1,13 @@
 import fs from 'fs';
 import { compile } from 'handlebars';
+import { htmlToText } from 'html-to-text';
 import nodemailer, { Transporter } from 'nodemailer';
 
 import mailConfig from '@config/mail';
 
 import Logger from '@shared/errors/Logger';
 
-import { IMailMessage } from '../dtos/ISendMailDTO';
+import { IMailMessage, IMailMessageQueue } from '../dtos/ISendMailDTO';
 import IMailProvider from '../models/IMailProvider';
 
 export default class EtherealMailProvider implements IMailProvider {
@@ -28,7 +29,7 @@ export default class EtherealMailProvider implements IMailProvider {
     });
   }
 
-  async sendEmail<T = Record<string, unknown>>(message: IMailMessage<T>): Promise<void> {
+  async sendEmailWithTemplate<T = Record<string, unknown>>(message: IMailMessage<T>): Promise<void> {
     const templateFile = fs.readFileSync(message.path, 'utf-8');
     const templateParse = compile<T>(templateFile);
     const templateHTML = templateParse(message.variables);
@@ -50,5 +51,31 @@ export default class EtherealMailProvider implements IMailProvider {
 
     Logger.info('Message sent: %s', responseSendEmail.messageId);
     Logger.info('Preview URL: %s', nodemailer.getTestMessageUrl(responseSendEmail));
+  }
+
+  async sendEmail(message: IMailMessageQueue, meta?: Record<string, string>): Promise<void> {
+    const sendMailConfig = {
+      Source: `${message.from.name} <${message.from.email}>`,
+      Destination: {
+        ToAddresses: [`${message.to.name} <${message.to.email}>`],
+      },
+      Message: {
+        Subject: {
+          Data: message.subject,
+        },
+        Body: {
+          Html: {
+            Data: message.body,
+          },
+          Text: {
+            Data: htmlToText(message.body),
+          },
+        },
+      },
+    };
+    if (meta) {
+      Logger.info(sendMailConfig);
+    }
+    Logger.info(sendMailConfig);
   }
 }

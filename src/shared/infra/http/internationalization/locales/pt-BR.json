@@ -120,6 +120,10 @@
     "registration_removed_successfully": "Mensagem removida com sucesso",
     "enter_the_subject": "Informe o assunto",
     "enter_the_body": "Informe o corpo do assunto",
-    "message_not_found_in_the_database": "Mensagem não localizada na base de dados"
+    "message_not_found_in_the_database": "Mensagem não localizada na base de dados",
+    "message_body_must_contains_least_characters": "O corpo da mensagem deve conter pelo menos 20 caracteres",
+    "enter_the_tags": "Informe pelo menos uma tag para enviar a mensagem",
+    "message_has_already_been_sent": "A mensagem já foi enviada",
+    "email_sent": "E-mail enviado"
   }
 }

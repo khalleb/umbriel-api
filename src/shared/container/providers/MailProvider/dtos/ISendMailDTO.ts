@@ -10,3 +10,10 @@ export interface IMailMessage<T = Record<string, unknown>> {
   variables: T;
   path: string;
 }
+
+export interface IMailMessageQueue {
+  from: IMailAddress;
+  to: IMailAddress;
+  subject: string;
+  body: string;
+}

@@ -4,11 +4,13 @@ import mailConfig from '@config/mail';
 
 import { MAIL_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
 
+import AmazonSESProvider from './implementations/AmazonSESProvider';
 import EtherealMailProvider from './implementations/EtherealMailProvider';
 import IMailProvider from './models/IMailProvider';
 
 const providers = {
   ethereal: container.resolve(EtherealMailProvider),
+  ses: container.resolve(AmazonSESProvider),
 };
 
 container.registerInstance<IMailProvider>(MAIL_PROVIDER_NAME, providers[mailConfig.driver]);

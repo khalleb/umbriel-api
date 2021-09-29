@@ -1,16 +1,17 @@
 import { Request } from 'express';
 
+import inlineCss from 'inline-css';
 import { inject, injectable } from 'tsyringe';
 
 import ContactsRepository from '@modules/contacts/infra/typeorm/repositories/ContactsRepository';
 import IContactsRepository from '@modules/contacts/repositories/IContactsRepository';
-import SendersRepository from '@modules/senders/infra/typeorm/repositories/SendersRepository';
-import ISendersRepository from '@modules/senders/repositories/ISendersRepository';
 import TagsRepository from '@modules/tags/infra/typeorm/repositories/TagsRepository';
 import ITagsRepository from '@modules/tags/repositories/ITagsRepository';
 import TemplatesRepository from '@modules/templates/infra/typeorm/repositories/TemplatesRepository';
 import ITemplatesRepository from '@modules/templates/repositories/ITemplatesRepository';
 
+import { IMailQueueProvider } from '@shared/container/providers/EmailQueueProvider/models/IMailQueueProvider';
+import { MAIL_QUEUE_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
 import AppError from '@shared/errors/AppError';
 import { i18n } from '@shared/infra/http/internationalization';
 import IBaseService from '@shared/infra/services/IBaseService';
@@ -36,8 +37,8 @@ class MessagesServices implements IBaseService {
     @inject(ContactsRepository.name)
     private _contactsRepository: IContactsRepository,
 
-    @inject(SendersRepository.name)
-    private _sendersRepository: ISendersRepository,
+    @inject(MAIL_QUEUE_PROVIDER_NAME)
+    private _mailQueueProvider: IMailQueueProvider,
   ) {}
 
   private datasValidate(data: IMessageDTO): IMessageDTO {
@@ -112,6 +113,78 @@ class MessagesServices implements IBaseService {
     data.status = 'both';
     const list = await this._messagesRepository.index(data);
     return list;
+  }
+
+  public async send(req: Request): Promise<string> {
+    const { query } = req;
+    const id = query?.id as string;
+    if (!id) {
+      throw new AppError(i18n('message.enter_your_message_details'));
+    }
+    const message = await this._messagesRepository.findByIdWithTags(id);
+    if (!message) {
+      throw new AppError(i18n('message.message_not_found_in_the_database'));
+    }
+
+    if (message.sent_at) {
+      throw new AppError(i18n('message.message_has_already_been_sent'));
+    }
+
+    let messageBody = message.body;
+
+    if (message.template_id && message.body) {
+      const template = await this._templatesRepository.findById(message.template_id);
+
+      if (!template) {
+        throw new AppError(i18n('template.template_not_found_in_the_database'));
+      }
+
+      const messageBodyContent = template.content.replace('{{ message_content }}', message.body);
+      const messageBodyWithInlineCSS = await inlineCss(messageBodyContent, {
+        url: 'not-required',
+        removeHtmlSelectors: true,
+      });
+      if (messageBodyWithInlineCSS.length <= 20) {
+        throw new AppError(i18n('message.message_body_must_contains_least_characters'));
+      }
+      messageBody = messageBodyWithInlineCSS;
+    }
+
+    const messageTags = message?.tags;
+
+    const tagsIds = messageTags?.map(messageTag => messageTag.id);
+    if (!tagsIds) {
+      throw new AppError(i18n('message.enter_the_tags'));
+    }
+    const contacts = await this._contactsRepository.findByTagsIds(tagsIds);
+
+    const { sender } = message;
+
+    message.body = messageBody;
+    message.sent_at = new Date();
+
+    const queueJobs = contacts.map(contact => {
+      return {
+        sender: {
+          name: sender.name,
+          email: sender.email,
+        },
+        recipient: {
+          id: contact.id,
+          name: contact.name,
+          email: contact.email,
+        },
+        message: {
+          id: message.id,
+          subject: message.subject,
+          body: message.body,
+        },
+      };
+    });
+    await this._mailQueueProvider.addManyJobs(queueJobs);
+
+    await this._messagesRepository.update(message);
+    return i18n('message.email_sent');
   }
 }
 export default MessagesServices;

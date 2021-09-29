@@ -1,4 +1,5 @@
 import './HashProvider';
-import './DateProvider';
+import './EmailQueueProvider';
 import './CacheProvider';
+import './DateProvider';
 import './MailProvider';

@@ -52,7 +52,7 @@ class ForgotService {
     token = removeSpecialCharacters(token) + expires_date;
     await this._cacheProvider.save(token, user.id, expires_date);
 
-    await this._mailProvider.sendEmail<IForgotPasswordHbs>({
+    await this._mailProvider.sendEmailWithTemplate<IForgotPasswordHbs>({
       to: {
         name: user.name,
         email,
