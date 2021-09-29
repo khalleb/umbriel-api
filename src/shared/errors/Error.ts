@@ -22,7 +22,7 @@ export function errorConverter(err: Error, request: Request, response: Response,
       error.message = errorCelebrate ? errorCelebrate.trim() : error.message;
       error = new AppError(error.message, httpStatus.BAD_REQUEST, err.stack);
     } else if (error instanceof MulterError) {
-      error.message = `O arquivo pode ter no máximo ${env.STORAGE_MAX_SIZE_MEGABYTES} MegaBytes`;
+      error.message = `very large file`;
       error = new AppError(error.message, httpStatus.BAD_REQUEST, err.stack);
     } else {
       error = new AppError(error.message, httpStatus.INTERNAL_SERVER_ERROR, err.stack);

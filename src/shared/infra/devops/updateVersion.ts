@@ -12,7 +12,7 @@ export default async function updateVersion() {
   }
   const packJson = JSON.parse(packageJson);
   const { version } = packJson;
-  Logger.info('--> VERSÃO ATUAL <--');
+  Logger.info('--> CURRENT VERSION <--');
   Logger.info(`      ${version}      `);
 
   const spliteVersion = version.split('.');
@@ -36,7 +36,7 @@ export default async function updateVersion() {
   const updateVersion = `${major}.${minor}.${patch}.${format(new Date(), 'yyyyMMdd')}`;
   packJson.version = updateVersion;
   writeFileSync(pathPackage, JSON.stringify(packJson, null, 2));
-  Logger.info('--> VERSÃO ATUALIZADA <--');
+  Logger.info('--> UPDATED VERSION <--');
   Logger.info(`      ${updateVersion}      `);
 }
 

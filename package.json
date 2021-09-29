@@ -16,7 +16,7 @@
     "style": "npx eslint --fix . && npx prettier --write .",
     "seed:config": "ts-node-dev -r tsconfig-paths/register --transpile-only ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "ts-node-dev -r tsconfig-paths/register --transpile-only ./node_modules/typeorm-seeding/dist/cli.js seed",
-    "update-version": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/updateVersion.ts | pino-pretty -c"
+    "update-version": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/devops/updateVersion.ts | pino-pretty -c"
   },
   "dependencies": {
     "aws-sdk": "^2.996.0",
