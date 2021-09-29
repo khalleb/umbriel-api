@@ -51,11 +51,9 @@ class MessagesServices implements IBaseService {
     if (!data.subject) {
       throw new AppError(i18n('message.enter_the_subject'));
     }
-
-    // if (!data.body) {
-    //   throw new AppError(i18n('message.enter_the_body'));
-    // }
-
+    if (!data.body) {
+      throw new AppError(i18n('message.enter_the_body'));
+    }
     if (!data?.tags || data?.tags?.length <= 0) {
       throw new AppError(i18n('tag.enter_your_tag_details'));
     }

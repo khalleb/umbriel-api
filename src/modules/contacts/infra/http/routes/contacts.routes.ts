@@ -15,7 +15,7 @@ const controller = new ContactsController();
 const nameService = ContactsServices.name;
 
 const datasCreateUpdate = {
-  name: Joi.string().required(),
+  name: Joi.string().allow(null),
   email: Joi.string().email().required(),
   tags: Joi.array(),
 };

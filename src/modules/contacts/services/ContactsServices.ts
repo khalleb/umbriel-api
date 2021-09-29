@@ -30,22 +30,21 @@ class ContactsServices implements IBaseService {
     if (!data) {
       throw new AppError(i18n('contact.enter_the_data'));
     }
-    if (!data.name) {
-      throw new AppError(i18n('contact.enter_the_name_data'));
-    }
+
     if (!data.email) {
       throw new AppError(i18n('contact.enter_the_email_data'));
     }
-    data.name = data.name.trim();
+    if (data.name) {
+      data.name = data.name.trim();
+      if (data.name.length < 3) {
+        throw new AppError(i18n('contact.the_name_cannot_be_less_than_characters'));
+      }
+      if (data.name.length > 100) {
+        throw new AppError(i18n('contact.the_name_cannot_be_longe_than_characters'));
+      }
+    }
     data.email = data.email.trim();
     data.email = data.email.toLocaleLowerCase();
-
-    if (data.name.length < 3) {
-      throw new AppError(i18n('contact.the_name_cannot_be_less_than_characters'));
-    }
-    if (data.name.length > 100) {
-      throw new AppError(i18n('contact.the_name_cannot_be_longe_than_characters'));
-    }
 
     if (data.email.length < 7) {
       throw new AppError(i18n('validations.the_email_cannot_be_less_than_characters'));

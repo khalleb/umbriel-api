@@ -2,7 +2,7 @@ import Tags from '@modules/tags/infra/typeorm/entities/Tags';
 
 export interface IContactsProps {
   id?: string;
-  name: string;
+  name?: string;
   email: string;
   subscribed: boolean;
 }

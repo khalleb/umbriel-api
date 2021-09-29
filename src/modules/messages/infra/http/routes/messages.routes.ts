@@ -15,7 +15,7 @@ const controller = new MessagesController();
 const nameService = MessagesServices.name;
 
 const datasCreateUpdate = {
-  template_id: Joi.string().uuid(),
+  template_id: Joi.string().required().uuid(),
   sender_id: Joi.string().required().uuid(),
   tags: Joi.array().required(),
   subject: Joi.string().required(),

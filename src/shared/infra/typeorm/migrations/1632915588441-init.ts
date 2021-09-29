@@ -1,14 +1,14 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class initTables1632613051331 implements MigrationInterface {
-  name = 'initTables1632613051331';
+export class init1632915588441 implements MigrationInterface {
+  name = 'init1632915588441';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
       `CREATE TABLE "tags" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "active" boolean NOT NULL DEFAULT true, "version" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "created_by" character varying DEFAULT 'UNDEFINED', "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_by" character varying, "updated_access" text, "inactivated_at" TIMESTAMP, "inactivated_by" character varying, "inactivated_access" text, "name" character varying NOT NULL, CONSTRAINT "PK_e7dc17249a1148a1970748eda99" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "contacts" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "active" boolean NOT NULL DEFAULT true, "version" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "created_by" character varying DEFAULT 'UNDEFINED', "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_by" character varying, "updated_access" text, "inactivated_at" TIMESTAMP, "inactivated_by" character varying, "inactivated_access" text, "name" character varying NOT NULL, "email" character varying NOT NULL, "subscribed" boolean NOT NULL, CONSTRAINT "PK_b99cd40cfd66a99f1571f4f72e6" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "contacts" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "active" boolean NOT NULL DEFAULT true, "version" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "created_by" character varying DEFAULT 'UNDEFINED', "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_by" character varying, "updated_access" text, "inactivated_at" TIMESTAMP, "inactivated_by" character varying, "inactivated_access" text, "name" character varying, "email" character varying NOT NULL, "subscribed" boolean NOT NULL, CONSTRAINT "PK_b99cd40cfd66a99f1571f4f72e6" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "senders" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "active" boolean NOT NULL DEFAULT true, "version" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "created_by" character varying DEFAULT 'UNDEFINED', "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_by" character varying, "updated_access" text, "inactivated_at" TIMESTAMP, "inactivated_by" character varying, "inactivated_access" text, "name" character varying NOT NULL, "email" character varying NOT NULL, CONSTRAINT "UQ_1414ac64e9156a150b0c13de4b5" UNIQUE ("email"), CONSTRAINT "PK_398b8614004a406acf982651b46" PRIMARY KEY ("id"))`,

@@ -5,5 +5,5 @@ arn seed:run
 yarn dev:server
 ```
 
-Usuário: mail@sittax.com.br
+Usuário: mail@mail.com.br
 Senha: @masterBoss!@#$%fusion1

@@ -25,7 +25,7 @@ export default class Population1630530183747 implements Seeder {
     const password = await this._hashProvider.generateHash('@masterBoss!@#$%fusion1');
     await this._usersRepository.store({
       name: 'UMBRIEL ADMINISTRADOR',
-      email: 'mail@sittax.com.br',
+      email: 'mail@mail.com.br',
       password,
       role: UserTypes.ADMIN,
     } as Users);
