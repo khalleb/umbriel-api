@@ -2,8 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv/config');
 
-// const { env } = process.env.NODE_ENV !== 'development' ? require('./dist/shared/env') : require('./src/shared/env');
-const { env } = require('./src/shared/env');
+const { env } = process.env.NODE_ENV !== 'development' ? require('./dist/shared/env') : require('./src/shared/env');
 
 const baseConfigPostgres = {
   name: 'default',
