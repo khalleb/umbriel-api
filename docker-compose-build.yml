@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  # Application
+
+  umbriel-api:
+    image: umbriel-api
+    container_name: umbriel-api
+    restart: always
+    ports:
+      - ${APP_API_PORT}:${APP_API_PORT}
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
