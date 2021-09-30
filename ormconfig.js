@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv/config');

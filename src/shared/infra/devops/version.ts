@@ -14,7 +14,10 @@ export function getVersionDeveloper(): string {
     const { version } = packJson;
     return version;
   } catch (error) {
-    return error;
+    if (error instanceof Error) {
+      return error.message;
+    }
+    return error as string;
   }
 }
 
@@ -29,7 +32,10 @@ export function getVersionProduction(): string {
     const { version } = paserVersionJson;
     return version;
   } catch (error) {
-    return error;
+    if (error instanceof Error) {
+      return error.message;
+    }
+    return error as string;
   }
 }
 

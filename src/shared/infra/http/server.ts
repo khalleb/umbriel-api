@@ -18,7 +18,7 @@ import Logger from '@shared/errors/Logger';
 import '@shared/infra/typeorm';
 import '@shared/container';
 
-import { getEnvironment, getVersion } from '../utils/version';
+import { getEnvironment, getVersion } from '../devops/version';
 import { i18n } from './internationalization';
 import routes from './routes';
 
