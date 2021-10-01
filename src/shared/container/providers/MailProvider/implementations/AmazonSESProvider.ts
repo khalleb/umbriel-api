@@ -47,6 +47,7 @@ export default class AmazonSESProvider implements IMailProvider {
     } as SendEmailRequest;
 
     if (meta) {
+      sendMailConfig.ConfigurationSetName = 'umbriel';
       sendMailConfig.Tags = Object.keys(meta).map(key => {
         return {
           Name: key,

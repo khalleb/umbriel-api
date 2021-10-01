@@ -9,7 +9,18 @@
       "request": "attach",
       "protocol": "inspector",
       "restart": true,
-      "name": "Debug",
+      "port": 9229,
+      "name": "Server",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "protocol": "inspector",
+      "restart": true,
+      "port": 9230,
+      "name": "Worker",
       "skipFiles": ["<node_internals>/**"],
       "outFiles": ["${workspaceFolder}/**/*.js"]
     }

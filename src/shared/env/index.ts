@@ -7,6 +7,7 @@ const env = cleanEnv(process.env, {
   CORS_HOSTS: str({ example: 'http://localhost:3000;localhost:3000' }),
 
   APP_API_PORT: port({ example: '3333' }),
+  APP_API_PORT_WEEBHOOK: port({ example: '3334' }),
   APP_API_URL: url({
     example: `http://localhost:3333`,
   }),
