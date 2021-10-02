@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, OneToMany, ManyToMany, ManyToOne } from 'typeorm';
 
 import Recipients from '@modules/recipients/infra/typeorm/entities/Recipients';
 import Senders from '@modules/senders/infra/typeorm/entities/Senders';
@@ -32,13 +32,8 @@ class Messages extends EntityBase {
   })
   tags?: Tags[];
 
-  @ManyToMany(() => Recipients, { nullable: true, cascade: true, onDelete: 'CASCADE' })
-  @JoinTable({
-    name: 'messages_recipients',
-    joinColumn: { name: 'messages_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'recipient_id', referencedColumnName: 'id' },
-  })
-  recipients?: Recipients[];
+  @OneToMany(() => Recipients, recipient => recipient.message)
+  recipients: Recipients[];
 
   @Column()
   subject: string;

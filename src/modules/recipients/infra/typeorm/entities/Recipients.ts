@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany } from 'typeorm';
 
 import Contacts from '@modules/contacts/infra/typeorm/entities/Contacts';
 import Events from '@modules/events/infra/typeorm/entities/Events';
@@ -23,7 +23,7 @@ class Recipients extends EntityBase {
   @JoinColumn({ name: 'contact_id' })
   contact: Contacts;
 
-  @ManyToMany(() => Events, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+  @OneToMany(() => Events, event => event.recipient)
   @JoinTable({
     name: 'recipients_events',
     joinColumn: { name: 'recipient_id', referencedColumnName: 'id' },

@@ -60,17 +60,6 @@ export interface IWebHookProps {
     complaintFeedbackType?: string;
     arrivalDate?: string;
   };
-  delivery?: {
-    timestamp?: string;
-    processingTimeMillis?: number;
-    recipients?: string[];
-    smtpResponse?: string;
-    reportingMTA?: string;
-  };
-  send?: any;
-  reject?: {
-    reason: string;
-  };
   open?: {
     ipAddress: string;
     timestamp: string;
@@ -83,10 +72,22 @@ export interface IWebHookProps {
     timestamp?: string;
     userAgent?: string;
   };
+  delivery?: {
+    timestamp?: string;
+    processingTimeMillis?: number;
+    recipients?: string[];
+    smtpResponse?: string;
+    reportingMTA?: string;
+  };
+  send?: any;
+  reject?: {
+    reason: string;
+  };
   failure?: {
     errorMessage: string;
     templateName: string;
   };
+
   deliveryDelay?: {
     timestamp?: string;
     delayType?: string;

@@ -28,5 +28,16 @@ class RecipientsServices {
     const event = await this._recipientsRepository.store(datas as Recipients);
     return event;
   }
+
+  public async findByMessageContact(message_id: string, contact_id: string): Promise<Recipients | undefined> {
+    if (!message_id) {
+      throw new AppError(i18n('recipient.enter_the_message_id'));
+    }
+    if (!contact_id) {
+      throw new AppError(i18n('recipient.enter_the_contact_id'));
+    }
+    const recipient = await this._recipientsRepository.findByMessageContact(message_id, contact_id);
+    return recipient;
+  }
 }
 export default RecipientsServices;

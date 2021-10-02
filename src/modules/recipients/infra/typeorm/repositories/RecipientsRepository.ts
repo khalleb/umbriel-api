@@ -8,6 +8,11 @@ class RecipientsRepository extends BaseRepository<Recipients> implements IRecipi
   public constructor() {
     super(Recipients);
   }
+
+  public async findByMessageContact(message_id: string, contact_id: string): Promise<Recipients | undefined> {
+    const recipient = await this.ormRepository.findOne({ message_id, contact_id });
+    return recipient;
+  }
 }
 
 export default RecipientsRepository;

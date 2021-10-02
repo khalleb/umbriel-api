@@ -3,6 +3,7 @@
     "activated": "ativado",
     "inactivated": "inativado"
   },
+
   "validations": {
     "invalid_email": "E-mail inválido",
     "email_too_long": "E-mail é muito longo. Máximo de 50 caracteres",
@@ -13,6 +14,7 @@
     "refresh_token_does_not_exists": "Token refresh não localizado",
     "no_permission_for_origin": "SEM PERMISSÃO PARA A ORIGIN"
   },
+
   "user": {
     "user": "Usuário",
     "enter_your_ID": "Informe o ID do usuário",
@@ -43,6 +45,7 @@
     "enter_data_password_update": "Informe os dados para alterar a senha",
     "not_found_in_the_database": "Usuário não localizada na base de dados"
   },
+
   "tag": {
     "tag": "Tag",
     "enter_your_tag_details": "Informe o ID da tag",
@@ -57,6 +60,7 @@
     "registration_removed_successfully": "Tag removida com sucesso",
     "the_status_of_the_tag_could_not_changed": "Não foi possível alterar o status da tag. Tente novamente"
   },
+
   "contact": {
     "contact": "Contato",
     "enter_your_ID": "Informe o ID do contato",
@@ -74,6 +78,7 @@
     "inscribe": "Inscrito",
     "describe": "Desinscrito"
   },
+
   "sender": {
     "sender": "Remetente",
     "enter_your_ID": "Informe o ID do rementente",
@@ -89,6 +94,7 @@
     "sender_not_found_in_the_database": "Remetente não localizada na base de dados",
     "the_status_of_the_sender_could_not_changed": "Não foi possível alterar o status do remetente. Tente novamente"
   },
+
   "template": {
     "template": "Template",
     "enter_your_template_details": "Informe o ID do template",
@@ -106,6 +112,7 @@
     "base_template_not_found": "Cadastre um template base",
     "enter_the_template_ID": "Informe o indentificado do template"
   },
+
   "message": {
     "message": "Mensagem",
     "enter_the_data": "Informe os dados da mensagem",
@@ -120,6 +127,7 @@
     "message_has_already_been_sent": "A mensagem já foi enviada",
     "email_sent": "E-mail enviado"
   },
+
   "webhook": {
     "webhook": "WebHook",
     "request_not_found": "Sem request na requisição",
@@ -129,12 +137,14 @@
     "type_id_not_found": "O tipo não foi encontrado na requisição",
     "meta_id_not_found": "Não foi possíl obter a meta"
   },
+
   "event": {
     "event": "Evento",
     "enter_the_data": "Informe os dados do evento",
     "enter_the_type": "Informe o tipo",
     "enter_the_recipient": "Informe o recipiente"
   },
+
   "recipient": {
     "recipient": "Recipiente",
     "enter_the_data": "Informe os dados do recipiente",

@@ -2,4 +2,6 @@
 
 ./server.sh &
 
-./queue.sh
+./queue.sh &
+
+./webhook.sh

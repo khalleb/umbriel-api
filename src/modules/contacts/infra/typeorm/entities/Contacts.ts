@@ -8,7 +8,7 @@ import { CONTACTS_TABLE_NAME } from '@shared/infra/typeorm/utils/tableNames';
 @Entity(CONTACTS_TABLE_NAME)
 class Contacts extends EntityBase {
   @Column({ nullable: true })
-  name: string;
+  name?: string;
 
   @Column()
   email: string;
