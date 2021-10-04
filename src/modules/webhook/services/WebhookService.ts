@@ -19,7 +19,6 @@ class WebhookService {
       if (!request) {
         throw new AppError(i18n('webhook.request_not_found'));
       }
-      Logger.info(request);
       if (!request?.body) {
         throw new AppError(i18n('webhook.request_not_found_body'));
       }
