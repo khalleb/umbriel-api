@@ -1,11 +1,9 @@
 import { Router } from 'express';
 
-import { text } from 'body-parser';
-
 import WebHookController from '../controllers/WebHookController';
 
 const router = Router();
 const controller = new WebHookController();
 
-router.post('/events/notifications', text(), controller.handle);
+router.post('/events/notifications', controller.handle);
 export default router;

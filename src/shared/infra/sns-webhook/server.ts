@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 
-// import { json } from 'body-parser';
+import { text } from 'body-parser';
 import cors from 'cors';
 
 import { env } from '@shared/env';
@@ -10,9 +10,20 @@ import Logger from '@shared/errors/Logger';
 import '@shared/infra/typeorm';
 import '@shared/container';
 
-import routes from '../../../modules/webhook/infra/http/routes/webhook.routes';
+// import routes from '../../../modules/webhook/infra/http/routes/webhook.routes';
 
 const app = express();
+
+app.post('/events/notifications', text(), (req, resp, next) => {
+  try {
+    const payloadStr = req.body;
+    console.log(payloadStr);
+  } catch (err) {
+    console.error(err);
+    resp.status(500).send('Oops');
+  }
+  resp.send('Ok');
+});
 
 // parse json request body
 // app.use(express.json());
