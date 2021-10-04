@@ -43,7 +43,9 @@
     "enter_data_password_recovery_token_not_found": "Token inválido",
     "password_changed_successfully": "Senha alterada com sucesso",
     "enter_data_password_update": "Informe os dados para alterar a senha",
-    "not_found_in_the_database": "Usuário não localizada na base de dados"
+    "not_found_in_the_database": "Usuário não localizada na base de dados",
+    "the_password_must_contain_at_least_letter_and_number": "A senha deve conter pelo menos 1 letra e 1 número",
+    "password_must_contain_least_characters": "A senha deve conter pelo menos 8 caracteres"
   },
 
   "tag": {
