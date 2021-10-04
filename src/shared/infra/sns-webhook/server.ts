@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 
-import { json } from 'body-parser';
+// import { json } from 'body-parser';
 import cors from 'cors';
 
 import { env } from '@shared/env';
@@ -15,8 +15,8 @@ import routes from '../../../modules/webhook/infra/http/routes/webhook.routes';
 const app = express();
 
 // parse json request body
-app.use(express.json());
-app.use(json());
+// app.use(express.json());
+// app.use(json());
 
 app.use(
   cors({
