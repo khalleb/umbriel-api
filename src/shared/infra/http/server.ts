@@ -49,6 +49,7 @@ if (!env.isDevelopment) {
       if (!origin || whitelist.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
+        Logger.info(`${i18n('validations.no_permission_for_origin')}: ${origin}`);
         throw new AppError(`${i18n('validations.no_permission_for_origin')}: ${origin}`);
       }
     },
