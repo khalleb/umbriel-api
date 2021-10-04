@@ -41,7 +41,7 @@ app.use(
 //   }),
 // );
 
-app.use(routes);
+// app.use(routes);
 
 app
   .listen(env.APP_API_PORT_WEEBHOOK, () => {
