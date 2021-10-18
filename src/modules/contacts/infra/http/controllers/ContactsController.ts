@@ -18,4 +18,10 @@ export default class ContactsController extends BaseController<ContactsServices>
     const status = await service.inscribeDescribe(request);
     return response.json({ message: status });
   }
+
+  public async import(request: Request, response: Response): Promise<Response> {
+    const service = container.resolve(ContactsServices);
+    const status = await service.importCSV(request);
+    return response.json({ message: status });
+  }
 }

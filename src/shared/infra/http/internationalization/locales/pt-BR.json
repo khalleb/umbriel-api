@@ -12,7 +12,10 @@
     "the_email_cannot_be_less_than_characters": "O e-mail não pode ter menos que 7 cacteres",
     "the_email_cannot_be_longe_than_characters": "O e-mail não pode ter mais que 100 caracteres",
     "refresh_token_does_not_exists": "Token refresh não localizado",
-    "no_permission_for_origin": "SEM PERMISSÃO PARA A ORIGIN"
+    "no_permission_for_origin": "SEM PERMISSÃO PARA A ORIGIN",
+    "enter_the_data_file": "Arquivo não localizado",
+    "invalid_file": "Arquivo inválido",
+    "invalid_extension": "A extensão do arquivo é inválida. Válidos:"
   },
 
   "user": {

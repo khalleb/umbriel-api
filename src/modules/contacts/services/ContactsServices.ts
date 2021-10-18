@@ -1,9 +1,15 @@
 import { Request } from 'express';
 
+import csvParse from 'csv-parse';
+import { createReadStream } from 'fs';
+import { get } from 'lodash';
+import { resolve } from 'path';
 import { inject, injectable } from 'tsyringe';
 
 import TagsRepository from '@modules/tags/infra/typeorm/repositories/TagsRepository';
 import ITagsRepository from '@modules/tags/repositories/ITagsRepository';
+
+import uploadConfig from '@config/upload';
 
 import AppError from '@shared/errors/AppError';
 import { i18n } from '@shared/infra/http/internationalization';
@@ -209,6 +215,37 @@ class ContactsServices implements IBaseService {
       throw new AppError(i18n('sender.the_status_of_the_contact_inscribe_could_not_changed'));
     }
     return `${i18n('contact.contact')} ${contact.subscribed ? i18n('contact.inscribe') : i18n('contact.describe')}`;
+  }
+
+  public async importCSV(request: Request): Promise<void> {
+    const fileName = request?.file?.filename;
+    if (!fileName) {
+      throw new AppError(i18n('validations.enter_the_data_file'));
+    }
+
+    const filePath = resolve(uploadConfig.tmpFolder, fileName);
+    if (!filePath) {
+      throw new AppError(i18n('validations.enter_the_data_file'));
+    }
+    const parsers = csvParse({
+      delimiter: ';',
+    });
+
+    const contactsFileStream = createReadStream(filePath);
+    const parseCSV = contactsFileStream.pipe(parsers);
+
+    parseCSV.on('data', async line => {
+      try {
+        // const [email, name] = line;
+        const email = get(line, '[0]');
+        const name = line[1];
+        console.log(email);
+        console.log(name);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    await new Promise(resolve => parseCSV.on('end', resolve));
   }
 }
 export default ContactsServices;

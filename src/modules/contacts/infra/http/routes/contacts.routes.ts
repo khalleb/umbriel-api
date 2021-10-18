@@ -1,8 +1,11 @@
 import { Router, Request, Response } from 'express';
 
 import { celebrate, Segments, Joi } from 'celebrate';
+import multer from 'multer';
 
 import ContactsServices from '@modules/contacts/services/ContactsServices';
+
+import uploadConfig from '@config/upload';
 
 import { RoutesType } from '@shared/infra/commons/constants';
 import { ensureAuthenticated } from '@shared/infra/http/middlewares/ensureAuthenticated';
@@ -13,6 +16,7 @@ import ContactsController from '../controllers/ContactsController';
 const router = Router();
 const controller = new ContactsController();
 const nameService = ContactsServices.name;
+const upload = multer(uploadConfig.multer);
 
 const datasCreateUpdate = {
   name: Joi.string().allow(null),
@@ -76,5 +80,7 @@ router.get(
   celebrate({ [Segments.QUERY]: { id: Joi.string().required().uuid() } }),
   controller.inscribeDescribe,
 );
+
+router.post(`/import`, ensureAuthenticated, upload.single('file'), controller.import);
 
 export default router;
