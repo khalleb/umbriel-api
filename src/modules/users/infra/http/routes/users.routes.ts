@@ -63,7 +63,7 @@ router.post(
 );
 
 router.post(
-  '/update-password',
+  `/${RoutesType.UPDATE_PASSWORD}`,
   ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {

@@ -55,7 +55,7 @@ router.post(
 );
 
 router.get(
-  `/get-by-name-like`,
+  `/${RoutesType.GET_BY_NAME_LIKE}`,
   ensureAuthenticated,
   celebrate({ [Segments.QUERY]: { name: Joi.string().required() } }),
   controller.findByNameLike,

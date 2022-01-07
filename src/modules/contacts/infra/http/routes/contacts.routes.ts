@@ -65,7 +65,7 @@ router.post(
 );
 
 router.delete(
-  `/delete-tag`,
+  `/${RoutesType.DELETE_TAG}`,
   ensureAuthenticated,
   celebrate({
     [Segments.BODY]: { id_contact: Joi.string().required().uuid(), id_tag: Joi.string().required().uuid() },
@@ -74,12 +74,12 @@ router.delete(
 );
 
 router.get(
-  `/inscribe-describe`,
+  `/${RoutesType.INSCRIBE_DESCRIBE}`,
   ensureAuthenticated,
   celebrate({ [Segments.QUERY]: { id: Joi.string().required().uuid() } }),
   controller.inscribeDescribe,
 );
 
-router.post(`/import`, ensureAuthenticated, upload.single('file'), controller.import);
+router.post(`/${RoutesType.IMPORT}`, ensureAuthenticated, upload.single('file'), controller.import);
 
 export default router;
