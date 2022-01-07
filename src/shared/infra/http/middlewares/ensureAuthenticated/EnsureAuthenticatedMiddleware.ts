@@ -29,7 +29,7 @@ class EnsureAuthenticatedMiddleware {
       const authHeader = request?.headers?.authorization;
 
       if (!authHeader) {
-        throw new AppError(i18n('validations.enter_the_authentication_token'), 400);
+        throw new AppError(i18n('validations.enter_the_authentication_token'));
       }
 
       const [, token] = authHeader.split(' ');
@@ -56,7 +56,6 @@ class EnsureAuthenticatedMiddleware {
         }
       }
       globalThis.__ID_USER__ = sub;
-
       request.user = {
         id: sub,
         email,
