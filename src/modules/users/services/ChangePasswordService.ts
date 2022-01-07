@@ -1,26 +1,24 @@
 import { inject, injectable } from 'tsyringe';
 
-import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
-import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
-import { CACHE_PROVIDER_NAME, HASH_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
+import { ICacheProvider } from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
 import AppError from '@shared/errors/AppError';
-import { i18n } from '@shared/infra/http/internationalization';
-import { passwordValid } from '@shared/infra/utils/validations';
+import { i18n } from '@shared/internationalization';
+import { passwordValid } from '@shared/utils/validations';
 
 import { IRequestForgotPassword, IRequestUpdatePassword } from '../dtos/IUsersDTO';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
-import IUsersRepository from '../repositories/IUsersRepository';
+import { IUsersRepository } from '../repositories';
 
 @injectable()
 class ChangePasswordService {
   constructor(
-    @inject(UsersRepository.name)
+    @inject('UsersRepositories')
     private _usersRepository: IUsersRepository,
 
-    @inject(CACHE_PROVIDER_NAME)
+    @inject('CacheProvider')
     private _cacheProvider: ICacheProvider,
 
-    @inject(HASH_PROVIDER_NAME)
+    @inject('HashProvider')
     private _hashProvider: IHashProvider,
   ) {}
 
@@ -90,4 +88,4 @@ class ChangePasswordService {
   }
 }
 
-export default ChangePasswordService;
+export { ChangePasswordService };

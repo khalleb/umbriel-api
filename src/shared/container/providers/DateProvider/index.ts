@@ -1,8 +1,7 @@
-import { container } from 'tsyringe';
+import { DateFnsProvider } from './implementations/DateFnsProvider';
 
-import { DATE_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
+const dateProviders = {
+  datefns: DateFnsProvider,
+};
 
-import DateFnsProvider from './implementations/DateFnsProvider';
-import { IDateProvider } from './models/IDateProvider';
-
-container.registerSingleton<IDateProvider>(DATE_PROVIDER_NAME, DateFnsProvider);
+export { dateProviders };

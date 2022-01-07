@@ -5,7 +5,7 @@ export interface IDeliverMessageJob {
   };
   recipient: {
     id: string;
-    name: string;
+    name: string | undefined;
     email: string;
   };
   message: {

@@ -1,4 +1,5 @@
 import { env } from '@shared/env';
+import { nameProject } from '@shared/utils/stringUtil';
 
 interface IMailConfig {
   driver: 'ethereal' | 'ses';
@@ -11,13 +12,14 @@ interface IMailConfig {
   };
 }
 
-export default {
+const mailConfig = {
   driver: env.MAIL_DRIVER || 'ethereal',
 
   defaults: {
     from: {
       email: `${env.DELIVERY_EMAIL}`,
-      name: `${env.NAME_PROJECT}`,
+      name: nameProject(),
     },
   },
 } as IMailConfig;
+export { mailConfig };

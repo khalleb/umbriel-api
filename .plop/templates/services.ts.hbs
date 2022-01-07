@@ -1,0 +1,10 @@
+import { injectable } from 'tsyringe';
+
+import { IBaseService } from '@shared/infra/http/services/IBaseService';
+
+@injectable()
+class {{ pascalCase nameEntity }}Services implements IBaseService {
+  constructor() {}
+}
+
+export { {{ pascalCase nameEntity }}Services };

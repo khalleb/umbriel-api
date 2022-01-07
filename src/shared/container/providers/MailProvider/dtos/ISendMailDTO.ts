@@ -1,5 +1,5 @@
 export interface IMailAddress {
-  name: string;
+  name: string | undefined;
   email: string;
 }
 

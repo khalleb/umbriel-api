@@ -2,17 +2,16 @@ import { Router, Request, Response } from 'express';
 
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import UsersServices from '@modules/users/services/UsersServices';
-
-import { RoutesType, UserTypes } from '@shared/infra/commons/constants';
+import { RoutesType, UserTypes } from '@shared/commons/constants';
+import { tokensServices } from '@shared/container';
 import { ensureAuthenticated } from '@shared/infra/http/middlewares/ensureAuthenticated';
 import { paginationRoute } from '@shared/infra/http/routes/validation.routes';
 
-import UsersController from '../controllers/UsersController';
+import { UsersController } from '../controllers/UsersController';
 
 const router = Router();
 const controller = new UsersController();
-const nameService = UsersServices.name;
+const nameService: tokensServices = 'UsersServices';
 
 const datasCreateUpdate = {
   name: Joi.string().required(),

@@ -2,23 +2,23 @@ import { autoInjectable, inject } from 'tsyringe';
 import { Connection } from 'typeorm';
 import { Factory, Seeder } from 'typeorm-seeding';
 
-import Users from '@modules/users/infra/typeorm/entities/Users';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-
-import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
-import { HASH_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
-import { UserTypes } from '@shared/infra/commons/constants';
+import { Users } from '@modules/users/infra/typeorm/entities/Users';
+import { IUsersRepository } from '@modules/users/repositories';
 
 import '@shared/container';
 
+import { UserTypes } from '@shared/commons/constants';
+import { registerDependencies } from '@shared/container';
+import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
+
+registerDependencies();
 @autoInjectable()
 export default class Population1630530183747 implements Seeder {
   constructor(
-    @inject(UsersRepository.name)
+    @inject('UsersRepositories')
     private _usersRepository: IUsersRepository,
 
-    @inject(HASH_PROVIDER_NAME)
+    @inject('HashProvider')
     private _hashProvider: IHashProvider,
   ) {}
   public async run(_: Factory, __: Connection): Promise<any> {

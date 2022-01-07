@@ -2,17 +2,16 @@ import { Router, Request, Response } from 'express';
 
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import SendersServices from '@modules/senders/services/SendersServices';
-
-import { RoutesType } from '@shared/infra/commons/constants';
+import { RoutesType } from '@shared/commons/constants';
+import { tokensServices } from '@shared/container';
 import { ensureAuthenticated } from '@shared/infra/http/middlewares/ensureAuthenticated';
 import { paginationRoute } from '@shared/infra/http/routes/validation.routes';
 
-import SendersController from '../controllers/SendersController';
+import { SendersController } from '../controllers/SendersController';
 
 const router = Router();
 const controller = new SendersController();
-const nameService = SendersServices.name;
+const nameService: tokensServices = 'SendersServices';
 
 const datasCreateUpdate = {
   email: Joi.string().email().required(),

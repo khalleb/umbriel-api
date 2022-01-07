@@ -2,9 +2,8 @@ import { Router, Request, Response } from 'express';
 
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import MessagesServices from '@modules/messages/services/MessagesServices';
-
-import { RoutesType } from '@shared/infra/commons/constants';
+import { RoutesType } from '@shared/commons/constants';
+import { tokensServices } from '@shared/container';
 import { ensureAuthenticated } from '@shared/infra/http/middlewares/ensureAuthenticated';
 import { paginationRoute } from '@shared/infra/http/routes/validation.routes';
 
@@ -12,7 +11,7 @@ import MessagesController from '../controllers/MessagesController';
 
 const router = Router();
 const controller = new MessagesController();
-const nameService = MessagesServices.name;
+const nameService: tokensServices = 'MessagesServices';
 
 const datasCreateUpdate = {
   template_id: Joi.string().required().uuid(),

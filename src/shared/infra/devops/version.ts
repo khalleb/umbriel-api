@@ -40,10 +40,10 @@ export function getVersionProduction(): string {
 }
 
 export function getVersion(): string {
-  if (env.isProduction) {
-    return getVersionProduction();
+  if (env.isDevelopment) {
+    return getVersionDeveloper();
   }
-  return getVersionDeveloper();
+  return getVersionProduction();
 }
 
 export function getEnvironment(): string {

@@ -3,12 +3,12 @@ import { Request } from 'express';
 import { get } from 'lodash';
 import { container, injectable } from 'tsyringe';
 
-import EventsServices from '@modules/events/services/EventsServices';
-import RecipientsServices from '@modules/recipients/services/RecipientsServices';
+import { EventsServices } from '@modules/events/services/EventsServices';
+import { RecipientsServices } from '@modules/recipients/services/RecipientsServices';
 
 import AppError from '@shared/errors/AppError';
-import Logger from '@shared/errors/Logger';
-import { i18n } from '@shared/infra/http/internationalization';
+import { i18n } from '@shared/internationalization';
+import { AppLogger } from '@shared/logger';
 
 import { IWebHookRequestDTO } from '../dtos/IWebHookDTO';
 
@@ -131,7 +131,7 @@ class WebhookService {
       const eventsServices = container.resolve(EventsServices);
       await eventsServices.storeRepository({ recipient_id: recipient.id, meta: importantMetadata, type });
     } catch (error) {
-      Logger.error(error as string);
+      AppLogger.error({ message: error });
     }
   }
 }

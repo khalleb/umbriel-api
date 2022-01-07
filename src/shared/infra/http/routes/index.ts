@@ -8,7 +8,7 @@ import templatesRouter from '@modules/templates/infra/http/routes/templates.rout
 import sessionRouter from '@modules/users/infra/http/routes/sessions.routes';
 import usersRouter from '@modules/users/infra/http/routes/users.routes';
 
-import { Routes } from '@shared/infra/commons/constants';
+import { Routes } from '@shared/commons/constants';
 
 const router = Router();
 
@@ -20,4 +20,4 @@ router.use(`/${Routes.SENDER}`, sendersRouter);
 router.use(`/${Routes.TEMPLATE}`, templatesRouter);
 router.use(`/${Routes.MESSAGE}`, messageRouter);
 
-export default router;
+export { router };

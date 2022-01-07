@@ -4,11 +4,11 @@ import express from 'express';
 import { json } from 'body-parser';
 import cors from 'cors';
 
-import { env } from '@shared/env';
-import Logger from '@shared/errors/Logger';
-
 import '@shared/infra/typeorm';
 import '@shared/container';
+
+import { env } from '@shared/env';
+import { AppLogger } from '@shared/logger';
 
 import routes from '../../../modules/webhook/infra/http/routes/webhook.routes';
 
@@ -45,13 +45,15 @@ app.use(routes);
 
 app
   .listen(env.APP_API_PORT_WEEBHOOK, () => {
-    Logger.info(`🚀 Webhook started on port ${env.APP_API_PORT_WEEBHOOK}`);
+    AppLogger.info({ message: `🚀 Webhook started on port ${env.APP_API_PORT_WEEBHOOK}` });
   })
   .on('error', error => {
-    Logger.error(`
-  ********************************************
-  🔥 ERROR STARTING WEBHOOK ${error}
-  ********************************************
-  `);
+    AppLogger.error({
+      message: `
+    ********************************************
+    🔥 ERROR STARTING WEBHOOK ${error}
+    ********************************************
+    `,
+    });
     process.exit(1);
   });

@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany } from 'typeorm';
 
-import Contacts from '@modules/contacts/infra/typeorm/entities/Contacts';
-import Events from '@modules/events/infra/typeorm/entities/Events';
-import Messages from '@modules/messages/infra/typeorm/entities/Messages';
+import { Contacts } from '@modules/contacts/infra/typeorm/entities/Contacts';
+import { Events } from '@modules/events/infra/typeorm/entities/Events';
+import { Messages } from '@modules/messages/infra/typeorm/entities/Messages';
 
-import EntityBase from '@shared/infra/typeorm/base/EntityBase';
+import { EntityBase } from '@shared/infra/typeorm/entities/postgres/EntityBase';
 import { RECIPIENTS_TABLE_NAME } from '@shared/infra/typeorm/utils/tableNames';
 
 @Entity(RECIPIENTS_TABLE_NAME)
@@ -31,4 +31,4 @@ class Recipients extends EntityBase {
   })
   events: Events[];
 }
-export default Recipients;
+export { Recipients };

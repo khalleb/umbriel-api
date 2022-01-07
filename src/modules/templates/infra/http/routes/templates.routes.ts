@@ -2,17 +2,16 @@ import { Router, Request, Response } from 'express';
 
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import TemplatesServices from '@modules/templates/services/TemplatesServices';
-
-import { RoutesType } from '@shared/infra/commons/constants';
+import { RoutesType } from '@shared/commons/constants';
+import { tokensServices } from '@shared/container';
 import { ensureAuthenticated } from '@shared/infra/http/middlewares/ensureAuthenticated';
 import { paginationRoute } from '@shared/infra/http/routes/validation.routes';
 
-import TemplatesController from '../controllers/TemplatesController';
+import { TemplatesController } from '../controllers/TemplatesController';
 
 const router = Router();
 const controller = new TemplatesController();
-const nameService = TemplatesServices.name;
+const nameService: tokensServices = 'TemplatesServices';
 
 const datasCreateUpdate = {
   name: Joi.string().required(),

@@ -3,19 +3,18 @@ import { Request } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import { i18n } from '@shared/infra/http/internationalization';
-import IBaseService from '@shared/infra/services/IBaseService';
-import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/Pagination';
+import IBaseService from '@shared/infra/http/services/IBaseService';
+import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
+import { i18n } from '@shared/internationalization';
 
 import { ITagsDTO } from '../dtos/ITagsDTO';
-import Tags from '../infra/typeorm/entities/Tags';
-import TagsRepository from '../infra/typeorm/repositories/TagsRepository';
-import ITagsRepository from '../repositories/ITagsRepository';
+import { Tags } from '../infra/typeorm/entities/Tags';
+import { ITagsRepository } from '../repositories';
 
 @injectable()
 class TagsServices implements IBaseService {
   constructor(
-    @inject(TagsRepository.name)
+    @inject('TagsRepositories')
     private _tagsRepository: ITagsRepository,
   ) {}
 
@@ -117,10 +116,9 @@ class TagsServices implements IBaseService {
   }
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {
-    data.status = data?.status || 'both';
     const list = await this._tagsRepository.index(data);
     return list;
   }
 }
 
-export default TagsServices;
+export { TagsServices };

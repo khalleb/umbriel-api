@@ -2,27 +2,25 @@ import { Request } from 'express';
 
 import { inject, injectable } from 'tsyringe';
 
-import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
-import { HASH_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
+import { UserTypes } from '@shared/commons/constants';
+import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
 import AppError from '@shared/errors/AppError';
-import { UserTypes } from '@shared/infra/commons/constants';
-import { i18n } from '@shared/infra/http/internationalization';
-import IBaseService from '@shared/infra/services/IBaseService';
-import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/Pagination';
-import { emailIsValid, passwordValid } from '@shared/infra/utils/validations';
+import IBaseService from '@shared/infra/http/services/IBaseService';
+import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
+import { i18n } from '@shared/internationalization';
+import { emailIsValid, passwordValid } from '@shared/utils/validations';
 
 import { IUsersRequestDTO } from '../dtos/IUsersDTO';
-import Users from '../infra/typeorm/entities/Users';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
-import IUsersRepository from '../repositories/IUsersRepository';
+import { Users } from '../infra/typeorm/entities/Users';
+import { IUsersRepository } from '../repositories';
 
 @injectable()
 class UsersServices implements IBaseService {
   constructor(
-    @inject(UsersRepository.name)
+    @inject('UsersRepositories')
     private _usersRepository: IUsersRepository,
 
-    @inject(HASH_PROVIDER_NAME)
+    @inject('HashProvider')
     private _hashProvider: IHashProvider,
   ) {}
 
@@ -171,7 +169,6 @@ class UsersServices implements IBaseService {
   }
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {
-    data.status = 'both';
     const list = await this._usersRepository.index(data);
     return list;
   }
@@ -187,4 +184,4 @@ class UsersServices implements IBaseService {
     return user;
   }
 }
-export default UsersServices;
+export { UsersServices };

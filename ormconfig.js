@@ -28,6 +28,7 @@ const developerConfig = [
     factories: ['./src/shared/infra/typeorm/factories/*.ts'],
   },
 ];
+
 const productionConfig = [
   {
     ...baseConfigPostgres,

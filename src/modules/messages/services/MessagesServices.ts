@@ -3,41 +3,36 @@ import { Request } from 'express';
 import inlineCss from 'inline-css';
 import { inject, injectable } from 'tsyringe';
 
-import ContactsRepository from '@modules/contacts/infra/typeorm/repositories/ContactsRepository';
-import IContactsRepository from '@modules/contacts/repositories/IContactsRepository';
-import TagsRepository from '@modules/tags/infra/typeorm/repositories/TagsRepository';
-import ITagsRepository from '@modules/tags/repositories/ITagsRepository';
-import TemplatesRepository from '@modules/templates/infra/typeorm/repositories/TemplatesRepository';
-import ITemplatesRepository from '@modules/templates/repositories/ITemplatesRepository';
+import { IContactsRepository } from '@modules/contacts/repositories';
+import { ITagsRepository } from '@modules/tags/repositories';
+import { ITemplatesRepository } from '@modules/templates/repositories/ITemplatesRepository';
 
 import { IMailQueueProvider } from '@shared/container/providers/EmailQueueProvider/models/IMailQueueProvider';
-import { MAIL_QUEUE_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
 import AppError from '@shared/errors/AppError';
-import { i18n } from '@shared/infra/http/internationalization';
-import IBaseService from '@shared/infra/services/IBaseService';
-import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/Pagination';
+import IBaseService from '@shared/infra/http/services/IBaseService';
+import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
+import { i18n } from '@shared/internationalization';
 
 import { IMessageDTO } from '../dtos/IMessagesDTO';
-import Messages from '../infra/typeorm/entities/Messages';
-import MessagesRepository from '../infra/typeorm/repositories/MessagesRepository';
-import IMessagesRepository from '../repositories/IMessagesRepository';
+import { Messages } from '../infra/typeorm/entities/Messages';
+import { IMessagesRepository } from '../repositories';
 
 @injectable()
 class MessagesServices implements IBaseService {
   constructor(
-    @inject(MessagesRepository.name)
+    @inject('MessagesRepositories')
     private _messagesRepository: IMessagesRepository,
 
-    @inject(TagsRepository.name)
+    @inject('TagsRepositories')
     private _tagsRepository: ITagsRepository,
 
-    @inject(TemplatesRepository.name)
+    @inject('TemplatesRepositories')
     private _templatesRepository: ITemplatesRepository,
 
-    @inject(ContactsRepository.name)
+    @inject('ContactsRepository')
     private _contactsRepository: IContactsRepository,
 
-    @inject(MAIL_QUEUE_PROVIDER_NAME)
+    @inject('EmailQueueProvider')
     private _mailQueueProvider: IMailQueueProvider,
   ) {}
 
@@ -108,7 +103,6 @@ class MessagesServices implements IBaseService {
   }
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {
-    data.status = 'both';
     const list = await this._messagesRepository.index(data);
     return list;
   }
@@ -185,4 +179,4 @@ class MessagesServices implements IBaseService {
     return i18n('message.email_sent');
   }
 }
-export default MessagesServices;
+export { MessagesServices };

@@ -2,33 +2,31 @@ import path from 'path';
 import { inject, injectable } from 'tsyringe';
 import { v4 as uuid } from 'uuid';
 
-import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import { ICacheProvider } from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import { IDateProvider } from '@shared/container/providers/DateProvider/models/IDateProvider';
-import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
-import { CACHE_PROVIDER_NAME, DATE_PROVIDER_NAME, MAIL_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
+import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
 import { env } from '@shared/env';
 import AppError from '@shared/errors/AppError';
-import { i18n } from '@shared/infra/http/internationalization';
-import { removeSpecialCharacters } from '@shared/infra/utils/stringUtil';
-import { emailIsValid } from '@shared/infra/utils/validations';
+import { i18n } from '@shared/internationalization';
+import { removeSpecialCharacters } from '@shared/utils/stringUtil';
+import { emailIsValid } from '@shared/utils/validations';
 
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
-import IUsersRepository from '../repositories/IUsersRepository';
+import { IUsersRepository } from '../repositories';
 import { IForgotPasswordHbs } from '../views/types/IForgotPasswordHbs';
 
 @injectable()
 class ForgotService {
   constructor(
-    @inject(UsersRepository.name)
+    @inject('UsersRepositories')
     private _usersRepository: IUsersRepository,
 
-    @inject(MAIL_PROVIDER_NAME)
+    @inject('MailProvider')
     private _mailProvider: IMailProvider,
 
-    @inject(CACHE_PROVIDER_NAME)
+    @inject('CacheProvider')
     private _cacheProvider: ICacheProvider,
 
-    @inject(DATE_PROVIDER_NAME)
+    @inject('DateProvider')
     private _dateProvider: IDateProvider,
   ) {}
 
@@ -69,4 +67,4 @@ class ForgotService {
   }
 }
 
-export default ForgotService;
+export { ForgotService };

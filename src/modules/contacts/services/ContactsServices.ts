@@ -2,27 +2,25 @@ import { Request } from 'express';
 
 import { inject, injectable } from 'tsyringe';
 
-import TagsRepository from '@modules/tags/infra/typeorm/repositories/TagsRepository';
-import ITagsRepository from '@modules/tags/repositories/ITagsRepository';
+import { ITagsRepository } from '@modules/tags/repositories';
 
 import AppError from '@shared/errors/AppError';
-import { i18n } from '@shared/infra/http/internationalization';
-import IBaseService from '@shared/infra/services/IBaseService';
-import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/Pagination';
-import { emailIsValid } from '@shared/infra/utils/validations';
+import IBaseService from '@shared/infra/http/services/IBaseService';
+import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
+import { i18n } from '@shared/internationalization';
+import { emailIsValid } from '@shared/utils/validations';
 
 import { IContactsRequestDTO } from '../dtos/IContactsDTO';
-import Contacts from '../infra/typeorm/entities/Contacts';
-import ContactsRepository from '../infra/typeorm/repositories/ContactsRepository';
-import IContactsRepository from '../repositories/IContactsRepository';
+import { Contacts } from '../infra/typeorm/entities/Contacts';
+import { IContactsRepository } from '../repositories';
 
 @injectable()
 class ContactsServices implements IBaseService {
   constructor(
-    @inject(ContactsRepository.name)
+    @inject('ContactsRepository')
     private _contactsRepository: IContactsRepository,
 
-    @inject(TagsRepository.name)
+    @inject('TagsRepositories')
     private _tagsRepository: ITagsRepository,
   ) {}
 
@@ -163,13 +161,12 @@ class ContactsServices implements IBaseService {
   }
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {
-    data.status = 'both';
     const list = await this._contactsRepository.index(data);
     return list;
   }
 
   public async removeTag(req: Request): Promise<string> {
-    const { id_contact, id_tag } = req?.body;
+    const { id_contact, id_tag } = req.body;
     if (!id_contact) {
       throw new AppError(i18n('contact.enter_your_contact_details'));
     }
@@ -211,4 +208,4 @@ class ContactsServices implements IBaseService {
     return `${i18n('contact.contact')} ${contact.subscribed ? i18n('contact.inscribe') : i18n('contact.describe')}`;
   }
 }
-export default ContactsServices;
+export { ContactsServices };

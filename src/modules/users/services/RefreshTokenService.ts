@@ -3,25 +3,24 @@ import { v4 as uuid } from 'uuid';
 
 import authConfig from '@config/auth';
 
-import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import { ICacheProvider } from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import { IDateProvider } from '@shared/container/providers/DateProvider/models/IDateProvider';
-import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
-import { CACHE_PROVIDER_NAME, DATE_PROVIDER_NAME, HASH_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
+import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
 import AppError from '@shared/errors/AppError';
-import { i18n } from '@shared/infra/http/internationalization';
+import { i18n } from '@shared/internationalization';
 
 import { IResponseRefreshToken, ITokenBodyCache } from '../dtos/IUsersDTO';
 
 @injectable()
 class RefreshTokenService {
   constructor(
-    @inject(CACHE_PROVIDER_NAME)
+    @inject('CacheProvider')
     private _cacheProvider: ICacheProvider,
 
-    @inject(DATE_PROVIDER_NAME)
+    @inject('DateProvider')
     private _dateProvider: IDateProvider,
 
-    @inject(HASH_PROVIDER_NAME)
+    @inject('HashProvider')
     private _hashProvider: IHashProvider,
   ) {}
 
@@ -66,4 +65,4 @@ class RefreshTokenService {
     };
   }
 }
-export default RefreshTokenService;
+export { RefreshTokenService };

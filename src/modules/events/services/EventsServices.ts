@@ -1,24 +1,22 @@
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import { i18n } from '@shared/infra/http/internationalization';
-import IBaseService from '@shared/infra/services/IBaseService';
-import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/Pagination';
+import IBaseService from '@shared/infra/http/services/IBaseService';
+import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
+import { i18n } from '@shared/internationalization';
 
 import { IEventsDTO } from '../dtos/IEventsDTO';
-import Events from '../infra/typeorm/entities/Events';
-import EventsRepository from '../infra/typeorm/repositories/EventsRepository';
-import IEventsRepository from '../repositories/IEventsRepository';
+import { Events } from '../infra/typeorm/entities/Events';
+import { IEventsRepository } from '../repositories';
 
 @injectable()
 class EventsServices implements IBaseService {
   constructor(
-    @inject(EventsRepository.name)
+    @inject('EventsRepositories')
     private _eventsRepository: IEventsRepository,
   ) {}
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {
-    data.status = 'both';
     const list = await this._eventsRepository.index(data);
     return list;
   }
@@ -37,4 +35,4 @@ class EventsServices implements IBaseService {
     return event;
   }
 }
-export default EventsServices;
+export { EventsServices };

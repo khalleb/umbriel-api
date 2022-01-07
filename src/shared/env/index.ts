@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { cleanEnv, str, port, url, num } from 'envalid';
 
 const env = cleanEnv(process.env, {
-  NODE_ENV: str({ choices: ['development', 'test', 'production'], example: 'development' }),
+  NODE_ENV: str({ choices: ['development', 'test', 'production'], example: 'development', default: 'development' }),
 
   CORS_HOSTS: str({ example: 'http://localhost:3000;localhost:3000' }),
 
@@ -14,6 +14,7 @@ const env = cleanEnv(process.env, {
   APP_WEB_URL: url({ example: `http://localhost:3334` }),
   PAGE_SIZE: num({ example: `10` }),
   NAME_PROJECT: str({ example: `UMBRIEL` }),
+  LOG_LEVEL: str({ choices: ['debug', 'info', 'warn', 'error', 'fatal'], example: 'debug', default: 'debug' }),
   DELIVERY_EMAIL: str({ example: `contact@mail.com.br` }),
 
   JWT_APP_SECRET: str({ devDefault: '' }),
@@ -33,11 +34,11 @@ const env = cleanEnv(process.env, {
   REDIS_DB: num({ example: '5' }),
   REDIS_ID: str({ example: 'UMBRIEL' }),
 
-  AWS_REGION: str({ devDefault: '' }),
+  AWS_REGION: str({ default: '', example: 'us-east-1' }),
   AWS_ACCESS_KEY_ID: str({ devDefault: '' }),
   AWS_SECRET_ACCESS_KEY: str({ devDefault: '' }),
 
-  MAIL_DRIVER: str({ choices: ['ethereal', 'ses'] }),
+  MAIL_DRIVER: str({ choices: ['ethereal', 'ses'], default: 'ethereal' }),
 
   QUEUE_DRIVER: str({ choices: ['BULL', 'SYNC'], devDefault: 'BULL' }),
 });

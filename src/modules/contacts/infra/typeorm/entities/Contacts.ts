@@ -1,8 +1,8 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 
-import Tags from '@modules/tags/infra/typeorm/entities/Tags';
+import { Tags } from '@modules/tags/infra/typeorm/entities/Tags';
 
-import EntityBase from '@shared/infra/typeorm/base/EntityBase';
+import { EntityBase } from '@shared/infra/typeorm/entities/postgres/EntityBase';
 import { CONTACTS_TABLE_NAME } from '@shared/infra/typeorm/utils/tableNames';
 
 @Entity(CONTACTS_TABLE_NAME)
@@ -24,4 +24,4 @@ class Contacts extends EntityBase {
   })
   tags?: Tags[];
 }
-export default Contacts;
+export { Contacts };

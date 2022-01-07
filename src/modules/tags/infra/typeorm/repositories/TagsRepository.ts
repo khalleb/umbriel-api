@@ -1,10 +1,10 @@
 import { ILike } from 'typeorm';
 
-import ITagsRepository from '@modules/tags/repositories/ITagsRepository';
+import { ITagsRepository } from '@modules/tags/repositories';
 
-import BaseRepository from '@shared/infra/typeorm/base/BaseRepository';
+import BaseRepository from '@shared/infra/typeorm/repositories/postgres/BaseRepository';
 
-import Tags from '../entities/Tags';
+import { Tags } from '../entities/Tags';
 
 class TagsRepository extends BaseRepository<Tags> implements ITagsRepository {
   public constructor() {
@@ -22,4 +22,4 @@ class TagsRepository extends BaseRepository<Tags> implements ITagsRepository {
   }
 }
 
-export default TagsRepository;
+export { TagsRepository };

@@ -1,8 +1,8 @@
-import ITemplatesRepository from '@modules/templates/repositories/ITemplatesRepository';
+import { ITemplatesRepository } from '@modules/templates/repositories/ITemplatesRepository';
 
-import BaseRepository from '@shared/infra/typeorm/base/BaseRepository';
+import BaseRepository from '@shared/infra/typeorm/repositories/postgres/BaseRepository';
 
-import Templates from '../entities/Templates';
+import { Templates } from '../entities/Templates';
 
 class TemplatesRepository extends BaseRepository<Templates> implements ITemplatesRepository {
   public constructor() {
@@ -15,4 +15,4 @@ class TemplatesRepository extends BaseRepository<Templates> implements ITemplate
   }
 }
 
-export default TemplatesRepository;
+export { TemplatesRepository };

@@ -1,7 +1,8 @@
-import IBaseRepository from '@shared/infra/typeorm/base/IBaseRepository';
+import IBaseRepository from '@shared/infra/typeorm/repositories/postgres/IBaseRepository';
 
-import Messages from '../infra/typeorm/entities/Messages';
+import { Messages } from '../infra/typeorm/entities/Messages';
 
-export default interface IMessagesRepository extends IBaseRepository<Messages> {
+interface IMessagesRepository extends IBaseRepository<Messages> {
   findByIdWithTags(id: string): Promise<Messages | undefined>;
 }
+export { IMessagesRepository };

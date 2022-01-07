@@ -1,14 +1,11 @@
 import { Column, Entity } from 'typeorm';
 
-import EntityBase from '@shared/infra/typeorm/base/EntityBase';
+import { KeyValueBase } from '@shared/infra/typeorm/entities/postgres/KeyValueBase';
 import { SENDERS_TABLE_NAME } from '@shared/infra/typeorm/utils/tableNames';
 
 @Entity(SENDERS_TABLE_NAME)
-class Senders extends EntityBase {
-  @Column()
-  name: string;
-
+class Senders extends KeyValueBase {
   @Column({ unique: true })
   email: string;
 }
-export default Senders;
+export { Senders };

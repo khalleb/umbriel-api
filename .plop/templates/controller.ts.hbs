@@ -1,0 +1,7 @@
+import { {{ pascalCase nameEntity }}Services } from '@modules/{{  module }}/services/{{ pascalCase nameEntity }}Services';
+
+import BaseController from '@shared/infra/http/controllers/BaseController';
+
+class {{ pascalCase nameEntity }}Controller extends BaseController<{{ pascalCase nameEntity }}Services> {}
+
+export { {{ pascalCase nameEntity }}Controller };

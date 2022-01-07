@@ -1,4 +1,4 @@
-import Tags from '@modules/tags/infra/typeorm/entities/Tags';
+import { Tags } from '@modules/tags/infra/typeorm/entities/Tags';
 
 export interface IContactsProps {
   id?: string;

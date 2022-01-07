@@ -1,11 +1,11 @@
 import { Column, Entity, JoinColumn, JoinTable, OneToMany, ManyToMany, ManyToOne } from 'typeorm';
 
-import Recipients from '@modules/recipients/infra/typeorm/entities/Recipients';
-import Senders from '@modules/senders/infra/typeorm/entities/Senders';
-import Tags from '@modules/tags/infra/typeorm/entities/Tags';
-import Templates from '@modules/templates/infra/typeorm/entities/Templates';
+import { Recipients } from '@modules/recipients/infra/typeorm/entities/Recipients';
+import { Senders } from '@modules/senders/infra/typeorm/entities/Senders';
+import { Tags } from '@modules/tags/infra/typeorm/entities/Tags';
+import { Templates } from '@modules/templates/infra/typeorm/entities/Templates';
 
-import EntityBase from '@shared/infra/typeorm/base/EntityBase';
+import { EntityBase } from '@shared/infra/typeorm/entities/postgres/EntityBase';
 import { MESSAGES_TABLE_NAME } from '@shared/infra/typeorm/utils/tableNames';
 
 @Entity(MESSAGES_TABLE_NAME)
@@ -44,4 +44,4 @@ class Messages extends EntityBase {
   @Column({ nullable: true })
   sent_at?: Date;
 }
-export default Messages;
+export { Messages };

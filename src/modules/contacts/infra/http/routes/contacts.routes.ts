@@ -2,17 +2,16 @@ import { Router, Request, Response } from 'express';
 
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import ContactsServices from '@modules/contacts/services/ContactsServices';
-
-import { RoutesType } from '@shared/infra/commons/constants';
+import { RoutesType } from '@shared/commons/constants';
+import { tokensServices } from '@shared/container';
 import { ensureAuthenticated } from '@shared/infra/http/middlewares/ensureAuthenticated';
 import { paginationRoute } from '@shared/infra/http/routes/validation.routes';
 
-import ContactsController from '../controllers/ContactsController';
+import { ContactsController } from '../controllers/ContactsController';
 
 const router = Router();
 const controller = new ContactsController();
-const nameService = ContactsServices.name;
+const nameService: tokensServices = 'ContactsServices';
 
 const datasCreateUpdate = {
   name: Joi.string().allow(null),

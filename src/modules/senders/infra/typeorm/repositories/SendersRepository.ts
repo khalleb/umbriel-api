@@ -1,8 +1,8 @@
-import ISendersRepository from '@modules/senders/repositories/ISendersRepository';
+import { ISendersRepository } from '@modules/senders/repositories/ISendersRepository';
 
-import BaseRepository from '@shared/infra/typeorm/base/BaseRepository';
+import BaseRepository from '@shared/infra/typeorm/repositories/postgres/BaseRepository';
 
-import Senders from '../entities/Senders';
+import { Senders } from '../entities/Senders';
 
 class SendersRepository extends BaseRepository<Senders> implements ISendersRepository {
   public constructor() {
@@ -14,4 +14,4 @@ class SendersRepository extends BaseRepository<Senders> implements ISendersRepos
   }
 }
 
-export default SendersRepository;
+export { SendersRepository };

@@ -2,12 +2,12 @@ import SES, { SendEmailRequest } from 'aws-sdk/clients/ses';
 import { htmlToText } from 'html-to-text';
 
 import { env } from '@shared/env';
-import Logger from '@shared/errors/Logger';
+import { AppLogger } from '@shared/logger';
 
 import { IMailMessage, IMailMessageQueue } from '../dtos/ISendMailDTO';
-import IMailProvider from '../models/IMailProvider';
+import { IMailProvider } from '../models/IMailProvider';
 
-export default class AmazonSESProvider implements IMailProvider {
+class AmazonSESProvider implements IMailProvider {
   private client: SES;
 
   constructor() {
@@ -18,14 +18,14 @@ export default class AmazonSESProvider implements IMailProvider {
   }
 
   async sendEmailWithTemplate<T = Record<string, unknown>>(message: IMailMessage<T>): Promise<void> {
-    Logger.info('Message sent: %s', message);
+    AppLogger.info({ message: `Message sent: ${message}` });
   }
 
   async sendEmail(message: IMailMessageQueue, meta?: Record<string, string>): Promise<void> {
     const sendMailConfig = {
       Source: `${message.from.name} <${message.from.email}>`,
       Destination: {
-        ToAddresses: [message.to.name ? `${message.to.name} <${message.to.email}>` : message.to.email],
+        ToAddresses: [message.to?.name ? `${message.to?.name} <${message.to.email}>` : message.to.email],
       },
       Message: {
         Subject: {
@@ -56,6 +56,8 @@ export default class AmazonSESProvider implements IMailProvider {
       });
     }
     const responseSendEmail = await this.client.sendEmail(sendMailConfig).promise();
-    Logger.info(responseSendEmail);
+    AppLogger.info({ message: responseSendEmail });
   }
 }
+
+export { AmazonSESProvider };

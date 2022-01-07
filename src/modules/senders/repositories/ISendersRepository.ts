@@ -1,7 +1,9 @@
-import IBaseRepository from '@shared/infra/typeorm/base/IBaseRepository';
+import IBaseRepository from '@shared/infra/typeorm/repositories/postgres/IBaseRepository';
 
-import Senders from '../infra/typeorm/entities/Senders';
+import { Senders } from '../infra/typeorm/entities/Senders';
 
-export default interface ISendersRepository extends IBaseRepository<Senders> {
+interface ISendersRepository extends IBaseRepository<Senders> {
   findByEmail(email: string): Promise<Senders | undefined>;
 }
+
+export { ISendersRepository };

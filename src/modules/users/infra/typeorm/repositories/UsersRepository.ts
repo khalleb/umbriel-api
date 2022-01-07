@@ -1,9 +1,10 @@
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
-import { StatusType } from '@shared/infra/dtos/IInfraDTO';
-import BaseRepository from '@shared/infra/typeorm/base/BaseRepository';
+import IDataAcessDTO from '@shared/infra/models/IDataAcessDTO';
+import { StatusType } from '@shared/infra/models/IInfraDTO';
+import BaseRepository from '@shared/infra/typeorm/repositories/postgres/BaseRepository';
 
-import Users from '../entities/Users';
+import { Users } from '../entities/Users';
 
 class UsersRepository extends BaseRepository<Users> implements IUsersRepository {
   public constructor() {
@@ -21,6 +22,10 @@ class UsersRepository extends BaseRepository<Users> implements IUsersRepository 
     }
     return user;
   }
+
+  public async saveLastAccess(id: string, lastAccess: IDataAcessDTO): Promise<void> {
+    await this.ormRepository.save({ id, lastAccess });
+  }
 }
 
-export default UsersRepository;
+export { UsersRepository };

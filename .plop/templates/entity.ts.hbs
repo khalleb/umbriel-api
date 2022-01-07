@@ -1,0 +1,9 @@
+import { Entity } from 'typeorm';
+
+import { EntityBase } from '@shared/infra/typeorm/entities/postgres/EntityBase';
+import { TABLE_NAME } from '@shared/infra/typeorm/utils/tableNames';
+
+@Entity(TABLE_NAME)
+class {{ pascalCase nameEntity }} extends EntityBase {}
+
+export { {{ pascalCase nameEntity }} };

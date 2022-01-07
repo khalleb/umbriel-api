@@ -1,8 +1,8 @@
-import IMessagesRepository from '@modules/messages/repositories/IMessagesRepository';
+import { IMessagesRepository } from '@modules/messages/repositories/IMessagesRepository';
 
-import BaseRepository from '@shared/infra/typeorm/base/BaseRepository';
+import BaseRepository from '@shared/infra/typeorm/repositories/postgres/BaseRepository';
 
-import Messages from '../entities/Messages';
+import { Messages } from '../entities/Messages';
 
 class MessagesRepository extends BaseRepository<Messages> implements IMessagesRepository {
   public constructor() {
@@ -15,4 +15,4 @@ class MessagesRepository extends BaseRepository<Messages> implements IMessagesRe
   }
 }
 
-export default MessagesRepository;
+export { MessagesRepository };

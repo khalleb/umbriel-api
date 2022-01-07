@@ -1,19 +1,18 @@
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import { i18n } from '@shared/infra/http/internationalization';
-import IBaseService from '@shared/infra/services/IBaseService';
-import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/Pagination';
+import IBaseService from '@shared/infra/http/services/IBaseService';
+import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
+import { i18n } from '@shared/internationalization';
 
 import { IRecipientsDTO } from '../dtos/IRecipientsDTO';
-import Recipients from '../infra/typeorm/entities/Recipients';
-import RecipientsRepository from '../infra/typeorm/repositories/RecipientsRepository';
-import IRecipientsRepository from '../repositories/IRecipientsRepository';
+import { Recipients } from '../infra/typeorm/entities/Recipients';
+import { IRecipientsRepository } from '../repositories';
 
 @injectable()
 class RecipientsServices implements IBaseService {
   constructor(
-    @inject(RecipientsRepository.name)
+    @inject('RecipientsRepositories')
     private _recipientsRepository: IRecipientsRepository,
   ) {}
 
@@ -43,9 +42,8 @@ class RecipientsServices implements IBaseService {
   }
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {
-    data.status = 'both';
     const list = await this._recipientsRepository.index(data);
     return list;
   }
 }
-export default RecipientsServices;
+export { RecipientsServices };

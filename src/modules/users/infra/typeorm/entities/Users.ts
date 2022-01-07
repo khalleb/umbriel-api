@@ -1,16 +1,13 @@
 import { Exclude } from 'class-transformer';
 import { Column, Entity } from 'typeorm';
 
-import { UserTypes } from '@shared/infra/commons/constants';
-import IDataAcessDTO from '@shared/infra/dtos/IDataAcessDTO';
-import EntityBase from '@shared/infra/typeorm/base/EntityBase';
+import { UserTypes } from '@shared/commons/constants';
+import IDataAcessDTO from '@shared/infra/models/IDataAcessDTO';
+import { KeyValueBase } from '@shared/infra/typeorm/entities/postgres/KeyValueBase';
 import { USERS_TABLE_NAME } from '@shared/infra/typeorm/utils/tableNames';
 
 @Entity(USERS_TABLE_NAME)
-class Users extends EntityBase {
-  @Column()
-  name: string;
-
+class Users extends KeyValueBase {
   @Column({ unique: true })
   email: string;
 
@@ -30,4 +27,4 @@ class Users extends EntityBase {
   lastAccess: IDataAcessDTO;
 }
 
-export default Users;
+export { Users };

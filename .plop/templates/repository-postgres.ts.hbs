@@ -1,0 +1,12 @@
+import { I{{ pascalCase nameEntity }}Repository } from '@modules/{{  module }}/repositories';
+
+import BaseRepository from '@shared/infra/typeorm/repositories/postgres/BaseRepository';
+
+import { {{ pascalCase nameEntity }} } from '../entities/{{ pascalCase nameEntity }}';
+
+class {{ pascalCase nameEntity }}Repository extends BaseRepository<{{ pascalCase nameEntity }}> implements I{{ pascalCase nameEntity }}Repository {
+  public constructor() {
+    super({{ pascalCase nameEntity }});
+  }
+}
+export { {{ pascalCase nameEntity }}Repository };

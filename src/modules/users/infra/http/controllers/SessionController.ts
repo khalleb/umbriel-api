@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
 
-import { classToClass } from 'class-transformer';
+import { instanceToInstance } from 'class-transformer';
 import { container } from 'tsyringe';
 
-import AuthenticateService from '@modules/users/services/AuthenticateService';
-import ChangePasswordService from '@modules/users/services/ChangePasswordService';
-import ForgotService from '@modules/users/services/ForgotService';
-import RefreshTokenService from '@modules/users/services/RefreshTokenService';
-import UsersServices from '@modules/users/services/UsersServices';
+import { AuthenticateService } from '@modules/users/services/AuthenticateService';
+import { ChangePasswordService } from '@modules/users/services/ChangePasswordService';
+import { ForgotService } from '@modules/users/services/ForgotService';
+import { RefreshTokenService } from '@modules/users/services/RefreshTokenService';
+import { UsersServices } from '@modules/users/services/UsersServices';
 
-import { cleanObject } from '@shared/infra/utils/objectUtil';
+import { cleanObject } from '@shared/utils/objectUtil';
 
-export default class SessionController {
+class SessionController {
   public async auth(request: Request, response: Response): Promise<Response> {
     const { email, password } = request.body;
     const authenticateUser = container.resolve(AuthenticateService);
@@ -19,25 +19,25 @@ export default class SessionController {
       email,
       password,
     });
-    return response.json({ token, refresh_token, user: cleanObject(classToClass(user)) });
+    return response.json({ token, refresh_token, user: cleanObject(instanceToInstance(user)) });
   }
 
   public async me(request: Request, response: Response): Promise<Response> {
-    const { id } = request?.user;
+    const { id } = request.user;
     const service = container.resolve(UsersServices);
     const reps = await service.me(id);
-    return response.json(cleanObject(classToClass(reps)));
+    return response.json(cleanObject(instanceToInstance(reps)));
   }
 
   public async refreshToken(request: Request, response: Response): Promise<Response> {
     const token = request?.body?.token || request?.query?.token || request?.headers['x-access-token'];
     const service = container.resolve(RefreshTokenService);
     const result = await service.execute(token);
-    return response.json(cleanObject(classToClass(result)));
+    return response.json(cleanObject(instanceToInstance(result)));
   }
 
   public async forgotPassword(request: Request, response: Response): Promise<Response> {
-    const { email } = request?.body;
+    const { email } = request.body;
     const service = container.resolve(ForgotService);
     const reps = await service.execute(email as string);
     return response.json({ message: reps });
@@ -49,3 +49,4 @@ export default class SessionController {
     return response.json({ message: reps });
   }
 }
+export { SessionController };

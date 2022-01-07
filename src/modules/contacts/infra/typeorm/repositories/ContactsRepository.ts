@@ -1,9 +1,9 @@
-import IContactsRepository from '@modules/contacts/repositories/IContactsRepository';
+import { IContactsRepository } from '@modules/contacts/repositories';
 
-import BaseRepository from '@shared/infra/typeorm/base/BaseRepository';
+import BaseRepository from '@shared/infra/typeorm/repositories/postgres/BaseRepository';
 import { CONTACTS_TABLE_NAME } from '@shared/infra/typeorm/utils/tableNames';
 
-import Contacts from '../entities/Contacts';
+import { Contacts } from '../entities/Contacts';
 
 class ContactsRepository extends BaseRepository<Contacts> implements IContactsRepository {
   public constructor() {
@@ -37,4 +37,4 @@ class ContactsRepository extends BaseRepository<Contacts> implements IContactsRe
   }
 }
 
-export default ContactsRepository;
+export { ContactsRepository };

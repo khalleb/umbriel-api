@@ -1,14 +1,11 @@
 import { Column, Entity } from 'typeorm';
 
-import EntityBase from '@shared/infra/typeorm/base/EntityBase';
+import { KeyValueBase } from '@shared/infra/typeorm/entities/postgres/KeyValueBase';
 import { TEMPLATES_TABLE_NAME } from '@shared/infra/typeorm/utils/tableNames';
 
 @Entity(TEMPLATES_TABLE_NAME)
-class Templates extends EntityBase {
-  @Column()
-  name: string;
-
+class Templates extends KeyValueBase {
   @Column()
   content: string;
 }
-export default Templates;
+export { Templates };

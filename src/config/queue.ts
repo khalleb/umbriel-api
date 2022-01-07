@@ -4,6 +4,8 @@ interface IQueueConfig {
   driver: 'BULL' | 'SYNC';
 }
 
-export default {
-  driver: env.QUEUE_DRIVER,
+const queueConfig = {
+  driver: env.QUEUE_DRIVER || 'SYNC',
 } as IQueueConfig;
+
+export { queueConfig };

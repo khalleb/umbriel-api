@@ -1,0 +1,6 @@
+import IBaseRepository from '@shared/infra/typeorm/repositories/postgres/IBaseRepository';
+
+import { {{ pascalCase nameEntity }} } from '../infra/typeorm/entities/{{ pascalCase nameEntity }}';
+
+interface I{{ pascalCase nameEntity }}Repository extends IBaseRepository<{{ pascalCase nameEntity }}> {}
+export { I{{ pascalCase nameEntity }}Repository };

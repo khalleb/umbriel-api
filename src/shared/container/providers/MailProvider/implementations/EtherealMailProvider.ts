@@ -3,14 +3,14 @@ import { compile } from 'handlebars';
 import { htmlToText } from 'html-to-text';
 import nodemailer, { Transporter } from 'nodemailer';
 
-import mailConfig from '@config/mail';
+import { mailConfig } from '@config/mail';
 
-import Logger from '@shared/errors/Logger';
+import { AppLogger } from '@shared/logger';
 
 import { IMailMessage, IMailMessageQueue } from '../dtos/ISendMailDTO';
-import IMailProvider from '../models/IMailProvider';
+import { IMailProvider } from '../models/IMailProvider';
 
-export default class EtherealMailProvider implements IMailProvider {
+class EtherealMailProvider implements IMailProvider {
   private client: Transporter;
 
   constructor() {
@@ -40,7 +40,7 @@ export default class EtherealMailProvider implements IMailProvider {
         address: message?.from?.email || email,
       },
       to: {
-        name: message.to.name,
+        name: message.to?.name || '',
         address: message.to.email,
       },
       subject: message.subject,
@@ -49,8 +49,8 @@ export default class EtherealMailProvider implements IMailProvider {
 
     const responseSendEmail = await this.client.sendMail(sendMailConfig);
 
-    Logger.info('Message sent: %s', responseSendEmail.messageId);
-    Logger.info('Preview URL: %s', nodemailer.getTestMessageUrl(responseSendEmail));
+    AppLogger.info({ message: `Message sent %s ${responseSendEmail.messageId}` });
+    AppLogger.info({ message: `Preview URL %s ${nodemailer.getTestMessageUrl(responseSendEmail)}` });
   }
 
   async sendEmail(message: IMailMessageQueue, meta?: Record<string, string>): Promise<void> {
@@ -74,8 +74,9 @@ export default class EtherealMailProvider implements IMailProvider {
       },
     };
     if (meta) {
-      Logger.info(sendMailConfig);
+      AppLogger.info({ message: sendMailConfig });
     }
-    Logger.info(sendMailConfig);
+    AppLogger.info({ message: sendMailConfig });
   }
 }
+export { EtherealMailProvider };

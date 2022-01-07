@@ -1,11 +1,8 @@
-import { Column, Entity } from 'typeorm';
+import { Entity } from 'typeorm';
 
-import EntityBase from '@shared/infra/typeorm/base/EntityBase';
+import { KeyValueBase } from '@shared/infra/typeorm/entities/postgres/KeyValueBase';
 import { TAGS_TABLE_NAME } from '@shared/infra/typeorm/utils/tableNames';
 
 @Entity(TAGS_TABLE_NAME)
-class Tags extends EntityBase {
-  @Column()
-  name: string;
-}
-export default Tags;
+class Tags extends KeyValueBase {}
+export { Tags };

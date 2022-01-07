@@ -1,0 +1,17 @@
+import { Router, Request, Response } from 'express';
+
+import { celebrate, Segments, Joi } from 'celebrate';
+
+import { {{ pascalCase nameEntity }}Controller } from '@modules/{{  module }}/infra/http/controllers/{{ pascalCase nameEntity }}Controller';
+
+import { tokensServices } from '@shared/container';
+
+const router = Router();
+const controller = new {{ pascalCase nameEntity }}Controller();
+const nameService: tokensServices = '{{ pascalCase nameEntity }}Services';
+
+const datasCreateUpdate = {
+  name: Joi.string().required(),
+};
+
+export default router;

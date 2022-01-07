@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import { readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 
-import Logger from '@shared/errors/Logger';
+import { AppLogger } from '@shared/logger';
 
 export default async function updateVersion() {
   const pathPackage = path.resolve(__dirname, '..', '..', '..', '..', 'package.json');
@@ -12,8 +12,8 @@ export default async function updateVersion() {
   }
   const packJson = JSON.parse(packageJson);
   const { version } = packJson;
-  Logger.info('--> CURRENT VERSION <--');
-  Logger.info(`      ${version}      `);
+  AppLogger.warn({ message: '--> CURRENT VERSION <--' });
+  AppLogger.warn({ message: `      ${version}      ` });
 
   const spliteVersion = version.split('.');
 
@@ -36,8 +36,8 @@ export default async function updateVersion() {
   const updateVersion = `${major}.${minor}.${patch}.${format(new Date(), 'yyyyMMdd')}`;
   packJson.version = updateVersion;
   writeFileSync(pathPackage, JSON.stringify(packJson, null, 2));
-  Logger.info('--> UPDATED VERSION <--');
-  Logger.info(`      ${updateVersion}      `);
+  AppLogger.warn({ message: '--> UPDATED VERSION <--' });
+  AppLogger.warn({ message: `      ${updateVersion}      ` });
 }
 
 updateVersion();

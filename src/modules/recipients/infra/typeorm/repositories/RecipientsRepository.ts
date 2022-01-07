@@ -1,8 +1,8 @@
-import IRecipientsRepository from '@modules/recipients/repositories/IRecipientsRepository';
+import { IRecipientsRepository } from '@modules/recipients/repositories/IRecipientsRepository';
 
-import BaseRepository from '@shared/infra/typeorm/base/BaseRepository';
+import BaseRepository from '@shared/infra/typeorm/repositories/postgres/BaseRepository';
 
-import Recipients from '../entities/Recipients';
+import { Recipients } from '../entities/Recipients';
 
 class RecipientsRepository extends BaseRepository<Recipients> implements IRecipientsRepository {
   public constructor() {
@@ -15,4 +15,4 @@ class RecipientsRepository extends BaseRepository<Recipients> implements IRecipi
   }
 }
 
-export default RecipientsRepository;
+export { RecipientsRepository };

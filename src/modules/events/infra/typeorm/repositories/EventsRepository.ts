@@ -1,8 +1,8 @@
-import IEventsRepository from '@modules/events/repositories/IEventsRepository';
+import { IEventsRepository } from '@modules/events/repositories/IEventsRepository';
 
-import BaseRepository from '@shared/infra/typeorm/base/BaseRepository';
+import BaseRepository from '@shared/infra/typeorm/repositories/postgres/BaseRepository';
 
-import Events from '../entities/Events';
+import { Events } from '../entities/Events';
 
 class EventsRepository extends BaseRepository<Events> implements IEventsRepository {
   public constructor() {
@@ -10,4 +10,4 @@ class EventsRepository extends BaseRepository<Events> implements IEventsReposito
   }
 }
 
-export default EventsRepository;
+export { EventsRepository };

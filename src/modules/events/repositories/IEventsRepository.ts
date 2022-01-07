@@ -1,5 +1,7 @@
-import IBaseRepository from '@shared/infra/typeorm/base/IBaseRepository';
+import IBaseRepository from '@shared/infra/typeorm/repositories/postgres/IBaseRepository';
 
-import Events from '../infra/typeorm/entities/Events';
+import { Events } from '../infra/typeorm/entities/Events';
 
-export default interface IEventsRepository extends IBaseRepository<Events> {}
+interface IEventsRepository extends IBaseRepository<Events> {}
+
+export { IEventsRepository };

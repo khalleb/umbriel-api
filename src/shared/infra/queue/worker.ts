@@ -2,12 +2,12 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import { container } from 'tsyringe';
 
-import ProcessQueueService from '@modules/messages/services/ProcessQueueService';
+import { ProcessQueueService } from '@modules/messages/services/ProcessQueueService';
 
 import '@shared/container';
-import Logger from '@shared/errors/Logger';
+import { AppLogger } from '@shared/logger';
 
 const processQueue = container.resolve(ProcessQueueService);
 
 processQueue.execute();
-Logger.info(`🚀 SERVER UMBRIEL QUEUE STARTED`);
+AppLogger.info({ message: `🚀 SERVER UMBRIEL QUEUE STARTED` });

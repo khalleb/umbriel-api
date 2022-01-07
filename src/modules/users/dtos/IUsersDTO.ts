@@ -1,4 +1,4 @@
-import { UserTypes } from '@shared/infra/commons/constants';
+import { UserTypes } from '@shared/commons/constants';
 
 export interface IUsersProps {
   id?: string;

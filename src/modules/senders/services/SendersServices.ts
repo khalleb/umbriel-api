@@ -3,20 +3,19 @@ import { Request } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import { i18n } from '@shared/infra/http/internationalization';
-import IBaseService from '@shared/infra/services/IBaseService';
-import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/Pagination';
-import { emailIsValid } from '@shared/infra/utils/validations';
+import IBaseService from '@shared/infra/http/services/IBaseService';
+import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
+import { i18n } from '@shared/internationalization';
+import { emailIsValid } from '@shared/utils/validations';
 
 import { ISendersDTO } from '../dtos/ISendersDTO';
-import Senders from '../infra/typeorm/entities/Senders';
-import SendersRepository from '../infra/typeorm/repositories/SendersRepository';
-import ISendersRepository from '../repositories/ISendersRepository';
+import { Senders } from '../infra/typeorm/entities/Senders';
+import { ISendersRepository } from '../repositories';
 
 @injectable()
 class SendersServices implements IBaseService {
   constructor(
-    @inject(SendersRepository.name)
+    @inject('SendersRepositories')
     private _sendersRepository: ISendersRepository,
   ) {}
 
@@ -148,9 +147,8 @@ class SendersServices implements IBaseService {
   }
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {
-    data.status = 'both';
     const list = await this._sendersRepository.index(data);
     return list;
   }
 }
-export default SendersServices;
+export { SendersServices };

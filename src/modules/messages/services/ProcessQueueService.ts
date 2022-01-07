@@ -1,17 +1,16 @@
 import { inject, injectable } from 'tsyringe';
 
 import { IMailQueueProvider } from '@shared/container/providers/EmailQueueProvider/models/IMailQueueProvider';
-import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
-import { MAIL_PROVIDER_NAME, MAIL_QUEUE_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
+import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
 import { env } from '@shared/env';
-import Logger from '@shared/errors/Logger';
+import { AppLogger } from '@shared/logger';
 
 @injectable()
 class ProcessQueueService {
   constructor(
-    @inject(MAIL_QUEUE_PROVIDER_NAME)
+    @inject('EmailQueueProvider')
     private _queueProvider: IMailQueueProvider,
-    @inject(MAIL_PROVIDER_NAME)
+    @inject('MailProvider')
     private _mailProvider: IMailProvider,
   ) {}
 
@@ -37,7 +36,7 @@ class ProcessQueueService {
           },
         );
       } catch (error) {
-        Logger.error('Error: ', error);
+        AppLogger.error({ message: error });
         if (env.isProduction) {
           // sentry
         }
@@ -46,4 +45,4 @@ class ProcessQueueService {
   }
 }
 
-export default ProcessQueueService;
+export { ProcessQueueService };

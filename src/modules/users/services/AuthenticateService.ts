@@ -3,31 +3,29 @@ import { v4 as uuid } from 'uuid';
 
 import authConfig from '@config/auth';
 
-import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import { ICacheProvider } from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import { IDateProvider } from '@shared/container/providers/DateProvider/models/IDateProvider';
-import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
-import { CACHE_PROVIDER_NAME, DATE_PROVIDER_NAME, HASH_PROVIDER_NAME } from '@shared/container/utils/ProviderNames';
+import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
 import AppError from '@shared/errors/AppError';
-import { i18n } from '@shared/infra/http/internationalization';
-import { emailIsValid } from '@shared/infra/utils/validations';
+import { i18n } from '@shared/internationalization';
+import { emailIsValid } from '@shared/utils/validations';
 
 import { IRequestAuth, IResponseAuth, ITokenBodyCache } from '../dtos/IUsersDTO';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
-import IUsersRepository from '../repositories/IUsersRepository';
+import { IUsersRepository } from '../repositories';
 
 @injectable()
 class AuthenticateService {
   constructor(
-    @inject(UsersRepository.name)
+    @inject('UsersRepositories')
     private _usersRepository: IUsersRepository,
 
-    @inject(HASH_PROVIDER_NAME)
+    @inject('HashProvider')
     private _hashProvider: IHashProvider,
 
-    @inject(DATE_PROVIDER_NAME)
+    @inject('DateProvider')
     private _dateProvider: IDateProvider,
 
-    @inject(CACHE_PROVIDER_NAME)
+    @inject('CacheProvider')
     private _cacheProvider: ICacheProvider,
   ) {}
 
@@ -88,4 +86,4 @@ class AuthenticateService {
   }
 }
 
-export default AuthenticateService;
+export { AuthenticateService };

@@ -2,7 +2,7 @@ import { hash, compare } from 'bcryptjs';
 import { verify, sign } from 'jsonwebtoken';
 
 import { IDecodeTokenResponseDTO } from '../dtos/IHashProviderDTO';
-import IHashProvider from '../models/IHashProvider';
+import { IHashProvider } from '../models/IHashProvider';
 
 class BCryptHashProvider implements IHashProvider {
   public async generateHash(payload: string): Promise<string> {
@@ -27,4 +27,4 @@ class BCryptHashProvider implements IHashProvider {
   }
 }
 
-export default BCryptHashProvider;
+export { BCryptHashProvider };
