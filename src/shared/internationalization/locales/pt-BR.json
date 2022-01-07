@@ -5,6 +5,7 @@
   },
 
   "validations": {
+    "storage_max_size": "O arquivo pode ter no máximo {max} MegaBytes",
     "invalid_email": "E-mail inválido",
     "email_too_long": "E-mail é muito longo. Máximo de 50 caracteres",
     "enter_the_authentication_token": "Informe o token de autenticação",
@@ -81,7 +82,8 @@
     "contact_not_found_in_the_database": "Contato não localizada na base de dados",
     "the_status_of_the_contact_could_not_changed": "Não foi possível alterar o status do contato. Tente novamente",
     "inscribe": "Inscrito",
-    "describe": "Desinscrito"
+    "describe": "Desinscrito",
+    "the_status_of_the_contact_inscribe_could_not_changed": "Não foi possível alterar o status de inscrito"
   },
 
   "sender": {

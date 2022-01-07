@@ -207,12 +207,12 @@ class ContactsServices implements IBaseService {
     }
     const contact = await this._contactsRepository.findById(id);
     if (!contact) {
-      throw new AppError(i18n('sender.contact_not_found_in_the_database'));
+      throw new AppError(i18n('contact.contact_not_found_in_the_database'));
     }
     contact.subscribed = !contact.subscribed;
     const response = await this._contactsRepository.inscribeDescribe(contact);
     if (!response) {
-      throw new AppError(i18n('sender.the_status_of_the_contact_inscribe_could_not_changed'));
+      throw new AppError(i18n('contact.the_status_of_the_contact_inscribe_could_not_changed'));
     }
     return messageResponse(
       `${i18n('contact.contact')} ${contact.subscribed ? i18n('contact.inscribe') : i18n('contact.describe')}`,
