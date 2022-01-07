@@ -19,6 +19,7 @@ import { AppLogger } from '@shared/logger';
 import { nameProject } from '@shared/utils/stringUtil';
 
 import { getEnvironment, getVersion } from '../devops/version';
+import { rateLimiter } from './middlewares/rateLimiter';
 import { router } from './routes';
 
 class Server {
@@ -56,6 +57,11 @@ class Server {
   }
 
   private middlewares() {
+    // Protects from DDoS and brute force attacks
+    if (!env.isDevelopment) {
+      this.app.use(rateLimiter);
+    }
+
     // enable cors
     if (!env.isDevelopment) {
       this.app.use((request: Request, response: Response, next: NextFunction) => {

@@ -49,6 +49,8 @@
     "nodemailer": "^6.7.2",
     "pg": "^8.7.1",
     "pino": "^7.6.2",
+    "rate-limiter-flexible": "^2.3.6",
+    "redis": "^3.1.2",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0",
     "typeorm": "^0.2.41",
@@ -82,6 +84,7 @@
     "@types/multer": "^1.4.7",
     "@types/node": "^17.0.8",
     "@types/nodemailer": "^6.4.4",
+    "@types/redis": "^2.8.32",
     "@types/pg": "^8.6.3",
     "@types/pino": "^7.0.5",
     "@types/ua-parser-js": "^0.7.36",
@@ -98,10 +101,10 @@
     "eslint-plugin-import-helpers": "^1.2.0",
     "eslint-plugin-prettier": "^4.0.0",
     "pino-pretty": "^7.3.0",
+    "plop": "2.7.4",
     "prettier": "^2.4.1",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.12.0",
-    "typescript": "^4.5.4",
-    "plop": "2.7.4"
+    "typescript": "^4.5.4"
   }
 }
