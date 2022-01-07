@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
+import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
 import IBaseService from '@shared/infra/http/services/IBaseService';
 import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
 import { i18n } from '@shared/internationalization';
@@ -85,7 +86,7 @@ class TagsServices implements IBaseService {
     return tag;
   }
 
-  public async inactivateActivate(req: Request): Promise<string> {
+  public async inactivateActivate(req: Request): Promise<HttpResponseMessage> {
     const { query } = req;
     const id = query?.id as string;
 
@@ -100,7 +101,7 @@ class TagsServices implements IBaseService {
     if (!response) {
       throw new AppError(i18n('tag.the_status_of_the_tag_could_not_changed'));
     }
-    return `${i18n('tag.tag')} ${tag.active ? i18n('labels.activated') : i18n('labels.inactivated')}`;
+    return messageResponse(`${i18n('tag.tag')} ${tag.active ? i18n('labels.activated') : i18n('labels.inactivated')}`);
   }
 
   public async findByNameLike(req: Request): Promise<Tags[]> {

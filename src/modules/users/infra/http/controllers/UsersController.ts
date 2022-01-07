@@ -12,7 +12,7 @@ class UsersController extends BaseController<UsersServices> {
     const { id } = request.user;
     const service = container.resolve(ChangePasswordService);
     const reps = await service.updatePassword(request?.body, id);
-    return response.json({ message: reps });
+    return response.json(reps);
   }
 }
 export { UsersController };

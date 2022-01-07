@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { UserTypes } from '@shared/commons/constants';
 import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
 import AppError from '@shared/errors/AppError';
+import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
 import IBaseService from '@shared/infra/http/services/IBaseService';
 import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
 import { i18n } from '@shared/internationalization';
@@ -133,14 +134,14 @@ class UsersServices implements IBaseService {
     return user;
   }
 
-  public async inactivateActivate(req: Request): Promise<string> {
+  public async inactivateActivate(req: Request): Promise<HttpResponseMessage> {
     const { query } = req;
     const id = query?.id as string;
     const user = await this.inactivateActivateRepository(id);
     return user;
   }
 
-  public async inactivateActivateRepository(id: string): Promise<string> {
+  public async inactivateActivateRepository(id: string): Promise<HttpResponseMessage> {
     if (!id) {
       throw new AppError(i18n('user.enter_your_ID'));
     }
@@ -152,7 +153,9 @@ class UsersServices implements IBaseService {
     if (!response) {
       throw new AppError(i18n('user.the_status_of_the_user_could_not_changed'));
     }
-    return `${i18n('user.user')} ${user.active ? i18n('labels.activated') : i18n('labels.inactivated')}`;
+    return messageResponse(
+      `${i18n('user.user')} ${user.active ? i18n('labels.activated') : i18n('labels.inactivated')}`,
+    );
   }
 
   public async isUserAdmin(idUserAuth: string): Promise<void> {

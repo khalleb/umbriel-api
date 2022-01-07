@@ -7,6 +7,7 @@ import { IDateProvider } from '@shared/container/providers/DateProvider/models/I
 import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
 import { env } from '@shared/env';
 import AppError from '@shared/errors/AppError';
+import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
 import { i18n } from '@shared/internationalization';
 import { removeSpecialCharacters } from '@shared/utils/stringUtil';
 import { emailIsValid } from '@shared/utils/validations';
@@ -30,7 +31,7 @@ class ForgotService {
     private _dateProvider: IDateProvider,
   ) {}
 
-  async execute(email: string): Promise<string> {
+  async execute(email: string): Promise<HttpResponseMessage> {
     if (!email) {
       throw new AppError(i18n('user.enter_the_email'));
     }
@@ -63,7 +64,7 @@ class ForgotService {
         nameProject: `${env.NAME_PROJECT}`,
       },
     });
-    return i18n('user.password_recovery_send');
+    return messageResponse(i18n('user.password_recovery_send'));
   }
 }
 

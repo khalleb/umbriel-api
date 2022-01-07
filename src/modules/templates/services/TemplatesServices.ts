@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
+import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
 import IBaseService from '@shared/infra/http/services/IBaseService';
 import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
 import { i18n } from '@shared/internationalization';
@@ -84,14 +85,14 @@ class TemplatesServices implements IBaseService {
     return template;
   }
 
-  public async delete(req: Request): Promise<string> {
+  public async delete(req: Request): Promise<HttpResponseMessage> {
     const { query } = req;
     const id = query?.id as string;
     const result = this.deleteRepository(id);
     return result;
   }
 
-  public async deleteRepository(id: string): Promise<any> {
+  public async deleteRepository(id: string): Promise<HttpResponseMessage> {
     if (!id) {
       throw new AppError(i18n('template.enter_your_template_details'));
     }
@@ -99,7 +100,7 @@ class TemplatesServices implements IBaseService {
     if (!response || response.affected === 0 || response.affected === null) {
       throw new AppError(i18n('template.the_tag_cannot_be_removed'));
     }
-    return i18n('template.registration_removed_successfully');
+    return messageResponse(i18n('template.registration_removed_successfully'));
   }
 
   public async show(req: Request): Promise<Templates | undefined> {
@@ -117,14 +118,14 @@ class TemplatesServices implements IBaseService {
     return template;
   }
 
-  public async inactivateActivate(req: Request): Promise<string> {
+  public async inactivateActivate(req: Request): Promise<HttpResponseMessage> {
     const { query } = req;
     const id = query?.id as string;
     const result = this.inactivateActivateRepository(id);
     return result;
   }
 
-  public async inactivateActivateRepository(id: string): Promise<string> {
+  public async inactivateActivateRepository(id: string): Promise<HttpResponseMessage> {
     if (!id) {
       throw new AppError(i18n('template.enter_your_template_details'));
     }
@@ -136,7 +137,9 @@ class TemplatesServices implements IBaseService {
     if (!response) {
       throw new AppError(i18n('template.the_status_of_the_tag_could_not_changed'));
     }
-    return `${i18n('template.template')} ${tag.active ? i18n('labels.activated') : i18n('labels.inactivated')}`;
+    return messageResponse(
+      `${i18n('template.template')} ${tag.active ? i18n('labels.activated') : i18n('labels.inactivated')}`,
+    );
   }
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {

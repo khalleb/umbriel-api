@@ -11,6 +11,7 @@ import { ITagsRepository } from '@modules/tags/repositories';
 import uploadConfig from '@config/upload';
 
 import AppError from '@shared/errors/AppError';
+import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
 import IBaseService from '@shared/infra/http/services/IBaseService';
 import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
 import { i18n } from '@shared/internationalization';
@@ -111,14 +112,14 @@ class ContactsServices implements IBaseService {
     return contact;
   }
 
-  public async delete(req: Request): Promise<string> {
+  public async delete(req: Request): Promise<HttpResponseMessage> {
     const { query } = req;
     const id = query?.id as string;
-    const result = this.deleteRepository(id);
+    const result = await this.deleteRepository(id);
     return result;
   }
 
-  public async deleteRepository(id: string): Promise<string> {
+  public async deleteRepository(id: string): Promise<HttpResponseMessage> {
     if (!id) {
       throw new AppError(i18n('contact.enter_your_contact_details'));
     }
@@ -126,7 +127,7 @@ class ContactsServices implements IBaseService {
     if (!response || response.affected === 0 || response.affected === null) {
       throw new AppError(i18n('contact.the_contact_cannot_be_removed'));
     }
-    return i18n('contact.registration_removed_successfully');
+    return messageResponse(i18n('contact.registration_removed_successfully'));
   }
 
   public async show(req: Request): Promise<Contacts | undefined> {
@@ -144,14 +145,14 @@ class ContactsServices implements IBaseService {
     return contact;
   }
 
-  public async inactivateActivate(req: Request): Promise<string> {
+  public async inactivateActivate(req: Request): Promise<HttpResponseMessage> {
     const { query } = req;
     const id = query?.id as string;
-    const result = this.inactivateActivateRepository(id);
+    const result = await this.inactivateActivateRepository(id);
     return result;
   }
 
-  public async inactivateActivateRepository(id: string): Promise<string> {
+  public async inactivateActivateRepository(id: string): Promise<HttpResponseMessage> {
     if (!id) {
       throw new AppError(i18n('contact.enter_your_contact_details'));
     }
@@ -163,7 +164,9 @@ class ContactsServices implements IBaseService {
     if (!response) {
       throw new AppError(i18n('sender.the_status_of_the_contact_could_not_changed'));
     }
-    return `${i18n('contact.contact')} ${sender.active ? i18n('labels.activated') : i18n('labels.inactivated')}`;
+    return messageResponse(
+      `${i18n('contact.contact')} ${sender.active ? i18n('labels.activated') : i18n('labels.inactivated')}`,
+    );
   }
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {
@@ -171,7 +174,7 @@ class ContactsServices implements IBaseService {
     return list;
   }
 
-  public async removeTag(req: Request): Promise<string> {
+  public async removeTag(req: Request): Promise<HttpResponseMessage> {
     const { id_contact, id_tag } = req.body;
     if (!id_contact) {
       throw new AppError(i18n('contact.enter_your_contact_details'));
@@ -188,17 +191,17 @@ class ContactsServices implements IBaseService {
     }
     contact.tags = contact?.tags?.filter(tag => tag.id !== id_tag);
     await this._contactsRepository.update(contact);
-    return i18n('tag.registration_removed_successfully');
+    return messageResponse(i18n('tag.registration_removed_successfully'));
   }
 
-  public async inscribeDescribe(req: Request): Promise<string> {
+  public async inscribeDescribe(req: Request): Promise<HttpResponseMessage> {
     const { query } = req;
     const id = query?.id as string;
-    const result = this.inscribeDescribeRepository(id);
+    const result = await this.inscribeDescribeRepository(id);
     return result;
   }
 
-  public async inscribeDescribeRepository(id: string): Promise<string> {
+  public async inscribeDescribeRepository(id: string): Promise<HttpResponseMessage> {
     if (!id) {
       throw new AppError(i18n('contact.enter_your_contact_details'));
     }
@@ -211,7 +214,9 @@ class ContactsServices implements IBaseService {
     if (!response) {
       throw new AppError(i18n('sender.the_status_of_the_contact_inscribe_could_not_changed'));
     }
-    return `${i18n('contact.contact')} ${contact.subscribed ? i18n('contact.inscribe') : i18n('contact.describe')}`;
+    return messageResponse(
+      `${i18n('contact.contact')} ${contact.subscribed ? i18n('contact.inscribe') : i18n('contact.describe')}`,
+    );
   }
 
   public async importCSV(request: Request): Promise<void> {

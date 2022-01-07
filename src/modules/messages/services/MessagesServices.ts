@@ -9,6 +9,7 @@ import { ITemplatesRepository } from '@modules/templates/repositories/ITemplates
 
 import { IMailQueueProvider } from '@shared/container/providers/EmailQueueProvider/models/IMailQueueProvider';
 import AppError from '@shared/errors/AppError';
+import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
 import IBaseService from '@shared/infra/http/services/IBaseService';
 import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
 import { i18n } from '@shared/internationalization';
@@ -69,14 +70,14 @@ class MessagesServices implements IBaseService {
     return message;
   }
 
-  public async delete(req: Request): Promise<string> {
+  public async delete(req: Request): Promise<HttpResponseMessage> {
     const { query } = req;
     const id = query?.id as string;
     const result = this.deleteRepository(id);
     return result;
   }
 
-  public async deleteRepository(id: string): Promise<string> {
+  public async deleteRepository(id: string): Promise<HttpResponseMessage> {
     if (!id) {
       throw new AppError(i18n('message.enter_your_message_details'));
     }
@@ -84,7 +85,7 @@ class MessagesServices implements IBaseService {
     if (!response || response.affected === 0 || response.affected === null) {
       throw new AppError(i18n('message.the_message_cannot_be_removed'));
     }
-    return i18n('message.registration_removed_successfully');
+    return messageResponse(i18n('message.registration_removed_successfully'));
   }
 
   public async show(req: Request): Promise<Messages | undefined> {
@@ -107,7 +108,7 @@ class MessagesServices implements IBaseService {
     return list;
   }
 
-  public async send(req: Request): Promise<string> {
+  public async send(req: Request): Promise<HttpResponseMessage> {
     const { query } = req;
     const id = query?.id as string;
     if (!id) {
@@ -176,7 +177,7 @@ class MessagesServices implements IBaseService {
     await this._mailQueueProvider.addManyJobs(queueJobs);
 
     await this._messagesRepository.update(message);
-    return i18n('message.email_sent');
+    return messageResponse(i18n('message.email_sent'));
   }
 }
 export { MessagesServices };

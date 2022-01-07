@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { ICacheProvider } from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
 import AppError from '@shared/errors/AppError';
+import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
 import { i18n } from '@shared/internationalization';
 import { passwordValid } from '@shared/utils/validations';
 
@@ -22,7 +23,7 @@ class ChangePasswordService {
     private _hashProvider: IHashProvider,
   ) {}
 
-  async execute(data: IRequestForgotPassword): Promise<string> {
+  async execute(data: IRequestForgotPassword): Promise<HttpResponseMessage> {
     if (!data) {
       throw new AppError(i18n('user.enter_data_password_recovery'));
     }
@@ -54,10 +55,10 @@ class ChangePasswordService {
     user.password = await this._hashProvider.generateHash(data.password);
     await this._usersRepository.update(user);
     await this._cacheProvider.invalidate(data.token);
-    return i18n('user.password_changed_successfully');
+    return messageResponse(i18n('user.password_changed_successfully'));
   }
 
-  async updatePassword(data: IRequestUpdatePassword, user_id: string): Promise<string> {
+  async updatePassword(data: IRequestUpdatePassword, user_id: string): Promise<HttpResponseMessage> {
     if (!data) {
       throw new AppError(i18n('user.enter_data_password_update'));
     }
@@ -84,7 +85,7 @@ class ChangePasswordService {
     }
     user.password = await this._hashProvider.generateHash(data.password);
     await this._usersRepository.update(user);
-    return i18n('user.password_changed_successfully');
+    return messageResponse(i18n('user.password_changed_successfully'));
   }
 }
 

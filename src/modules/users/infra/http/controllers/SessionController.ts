@@ -40,13 +40,13 @@ class SessionController {
     const { email } = request.body;
     const service = container.resolve(ForgotService);
     const reps = await service.execute(email as string);
-    return response.json({ message: reps });
+    return response.json(reps);
   }
 
   public async changePassword(request: Request, response: Response): Promise<Response> {
     const service = container.resolve(ChangePasswordService);
     const reps = await service.execute(request?.body);
-    return response.json({ message: reps });
+    return response.json(reps);
   }
 }
 export { SessionController };

@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
+import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
 import IBaseService from '@shared/infra/http/services/IBaseService';
 import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
 import { i18n } from '@shared/internationalization';
@@ -124,14 +125,14 @@ class SendersServices implements IBaseService {
     return sender;
   }
 
-  public async inactivateActivate(req: Request): Promise<string> {
+  public async inactivateActivate(req: Request): Promise<HttpResponseMessage> {
     const { query } = req;
     const id = query?.id as string;
     const result = await this.inactivateActivateRepository(id);
     return result;
   }
 
-  public async inactivateActivateRepository(id: string): Promise<string> {
+  public async inactivateActivateRepository(id: string): Promise<HttpResponseMessage> {
     if (!id) {
       throw new AppError(i18n('sender.enter_your_sender_details'));
     }
@@ -143,7 +144,9 @@ class SendersServices implements IBaseService {
     if (!response) {
       throw new AppError(i18n('sender.the_status_of_the_sender_could_not_changed'));
     }
-    return `${i18n('sender.sender')} ${sender.active ? i18n('labels.activated') : i18n('labels.inactivated')}`;
+    return messageResponse(
+      `${i18n('sender.sender')} ${sender.active ? i18n('labels.activated') : i18n('labels.inactivated')}`,
+    );
   }
 
   public async index(data: IPagination): Promise<IPaginationAwareObject> {
