@@ -41,5 +41,12 @@ const env = cleanEnv(process.env, {
   MAIL_DRIVER: str({ choices: ['ethereal', 'ses'], default: 'ethereal' }),
 
   QUEUE_DRIVER: str({ choices: ['BULL', 'SYNC'], devDefault: 'BULL' }),
+
+  ZOOKEEPER_USERS: str({ default: '' }),
+  ZOOKEEPER_PASSWORDS: str({ default: '' }),
+
+  KAFKA_BROKERS: str({ default: '' }),
+  KAFKA_USERNAME: str({ default: '' }),
+  KAFKA_PASSWORD: str({ default: '' }),
 });
 export { env };
