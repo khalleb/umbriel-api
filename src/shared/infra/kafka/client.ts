@@ -14,5 +14,4 @@ if (env.KAFKA_USERNAME) {
     password: env.KAFKA_PASSWORD,
   };
 }
-console.log(config);
 export const kafka = new Kafka(config);

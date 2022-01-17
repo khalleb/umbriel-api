@@ -15,6 +15,7 @@ import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/Ht
 import IBaseService from '@shared/infra/http/services/IBaseService';
 import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
 import { i18n } from '@shared/internationalization';
+import { AppLogger } from '@shared/logger';
 import { emailIsValid } from '@shared/utils/validations';
 
 import { IContactsRequestDTO } from '../dtos/IContactsDTO';
@@ -241,10 +242,9 @@ class ContactsServices implements IBaseService {
         // const [email, name] = line;
         const email = get(line, '[0]');
         const name = line[1];
-        console.log(email);
-        console.log(name);
+        AppLogger.info({ message: email + name });
       } catch (error) {
-        console.log(error);
+        AppLogger.error({ message: error });
       }
     });
     // await new Promise(resolve => parseCSV.on('end', resolve));
