@@ -26,4 +26,6 @@ export enum RoutesType {
   SEND = 'send',
   GET_BY_NAME_LIKE = 'get-by-name-like',
   UPDATE_PASSWORD = 'update-password',
+  STORE_PUBLIC = 'p-store',
+  INSCRIBE_DESCRIBE_PUBLIC = 'p-inscribe-describe',
 }

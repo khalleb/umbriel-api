@@ -7,6 +7,7 @@ interface IContactsRepository extends IBaseRepository<Contacts> {
   findByIdWithTags(id: string): Promise<Contacts | undefined>;
   findByTagsIds(tagIds: string[]): Promise<Contacts[]>;
   inscribeDescribe(contact: Contacts): Promise<boolean>;
+  checkIfThereIsRegistrationByEmail(email: string): Promise<boolean>;
 }
 
 export { IContactsRepository };

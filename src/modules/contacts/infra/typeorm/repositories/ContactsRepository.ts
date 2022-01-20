@@ -11,8 +11,8 @@ class ContactsRepository extends BaseRepository<Contacts> implements IContactsRe
   }
 
   public async findByEmail(email: string): Promise<Contacts | undefined> {
-    const sender = await this.ormRepository.findOne({ where: { email } });
-    return sender;
+    const contact = await this.ormRepository.findOne({ where: { email } });
+    return contact;
   }
 
   public async findByIdWithTags(id: string): Promise<Contacts | undefined> {
@@ -34,6 +34,11 @@ class ContactsRepository extends BaseRepository<Contacts> implements IContactsRe
   public async inscribeDescribe(contact: Contacts): Promise<boolean> {
     await this.ormRepository.save(contact);
     return true;
+  }
+
+  public async checkIfThereIsRegistrationByEmail(email: string): Promise<boolean> {
+    const result = await this.ormRepository.findOne({ email });
+    return !!result;
   }
 }
 

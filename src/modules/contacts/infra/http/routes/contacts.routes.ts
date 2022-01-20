@@ -18,13 +18,14 @@ const nameService: tokensServices = 'ContactsServices';
 const upload = multer(uploadConfig.multer);
 
 const datasCreateUpdate = {
-  name: Joi.string().allow(null),
   email: Joi.string().email().required(),
-  tags: Joi.array(),
+  name: Joi.string().allow(null),
+  tags: Joi.array().allow(null),
 };
 
 router.post(
   `/${RoutesType.STORE}`,
+  ensureAuthenticated,
   celebrate({ [Segments.BODY]: datasCreateUpdate }),
   (request: Request, response: Response) => controller.store(request, response, nameService),
 );
@@ -81,5 +82,23 @@ router.get(
 );
 
 router.post(`/${RoutesType.IMPORT}`, ensureAuthenticated, upload.single('file'), controller.import);
+
+router.post(
+  `/${RoutesType.STORE_PUBLIC}`,
+  celebrate({ [Segments.BODY]: datasCreateUpdate }),
+  controller.storeByRequestPublic,
+);
+
+router.post(
+  `/${RoutesType.INSCRIBE_DESCRIBE_PUBLIC}`,
+  celebrate({
+    [Segments.BODY]: {
+      email: Joi.string().email().required(),
+      type: Joi.string().required().valid('INSCRIBE', 'DESCRIBE'),
+      tags: Joi.array().allow(null),
+    },
+  }),
+  controller.inscribeDescribeByRequestPublic,
+);
 
 export default router;

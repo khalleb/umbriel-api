@@ -30,7 +30,7 @@ class ContactsServices implements IBaseService {
 
     @inject('TagsRepositories')
     private _tagsRepository: ITagsRepository,
-  ) {}
+  ) { }
 
   private datasValidate(data: IContactsRequestDTO): IContactsRequestDTO {
     if (!data) {
@@ -220,6 +220,24 @@ class ContactsServices implements IBaseService {
     );
   }
 
+  public async inscribeDescribeByEmailRepository(email: string, type: string): Promise<HttpResponseMessage> {
+    if (!email) {
+      throw new AppError(i18n('contact.enter_the_email_data'));
+    }
+    const contact = await this._contactsRepository.findByEmail(email);
+    if (!contact) {
+      throw new AppError(i18n('contact.contact_not_found_in_the_database'));
+    }
+    contact.subscribed = type === 'INSCRIBE';
+    const response = await this._contactsRepository.inscribeDescribe(contact);
+    if (!response) {
+      throw new AppError(i18n('contact.the_status_of_the_contact_inscribe_could_not_changed'));
+    }
+    return messageResponse(
+      `${i18n('contact.contact')} ${contact.subscribed ? i18n('contact.inscribe') : i18n('contact.describe')}`,
+    );
+  }
+
   public async importCSV(request: Request): Promise<void> {
     const fileName = request?.file?.filename;
     if (!fileName) {
@@ -248,6 +266,69 @@ class ContactsServices implements IBaseService {
       }
     });
     // await new Promise(resolve => parseCSV.on('end', resolve));
+  }
+
+  public async storeOrUpdateByRequestPublicRepository(
+    name: string | undefined,
+    email: string,
+    tags: string[],
+  ): Promise<HttpResponseMessage> {
+    if (!email) {
+      throw new AppError(i18n('contact.enter_the_email_data'));
+    }
+    let tagsId: (string | undefined)[] = [];
+    if (tags && tags?.length > 0) {
+      const resultsPromise = tags.map(async (name: string) => {
+        const result = await this._tagsRepository.findByName(name);
+        return result;
+      });
+      const tagsResult = await Promise.all(resultsPromise);
+      if (tagsResult && tagsResult.length > 0) {
+        tagsId = tagsResult.map(e => e?.id);
+      }
+    }
+
+    const existEmailBase = await this._contactsRepository.findByEmail(email);
+    if (existEmailBase?.id) {
+      const response = await this.updateRepository({
+        id: existEmailBase.id,
+        name,
+        email,
+        tags: tagsId as string[],
+        subscribed: true,
+      });
+
+      if (response?.id) {
+        return messageResponse(i18n('contact.contact_update_success'));
+      }
+    } else {
+      const response = await this.storeRepository({ name, email, tags: tagsId as string[], subscribed: true });
+
+      if (response?.id) {
+        return messageResponse(i18n('contact.contact_add_success'));
+      }
+    }
+    return messageResponse(i18n('contact.contact_add_fail'));
+  }
+
+  public async storeOrUpdateByRequestPublic(request: Request): Promise<HttpResponseMessage> {
+    const { name, email, tags } = request.body;
+    const result = await this.storeOrUpdateByRequestPublicRepository(name, email, tags);
+    return result;
+  }
+
+  public async inscribeDescribeByRequestPublic(request: Request): Promise<HttpResponseMessage> {
+    const { email, type, tags } = request.body;
+
+    if (!email) {
+      throw new AppError(i18n('contact.enter_the_email_data'));
+    }
+    const existEmailBase = await this._contactsRepository.findByEmail(email);
+    if (!existEmailBase) {
+      await this.storeOrUpdateByRequestPublicRepository(undefined, email, tags);
+    }
+    const result = await this.inscribeDescribeByEmailRepository(email, type);
+    return result;
   }
 }
 export { ContactsServices };
