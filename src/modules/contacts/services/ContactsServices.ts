@@ -1,20 +1,14 @@
 import { Request } from 'express';
 
-import csvParse from 'csv-parse';
-import { createReadStream } from 'fs';
-import { resolve } from 'path';
 import { inject, injectable } from 'tsyringe';
 
 import { ITagsRepository } from '@modules/tags/repositories';
-
-import uploadConfig from '@config/upload';
 
 import AppError from '@shared/errors/AppError';
 import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
 import IBaseService from '@shared/infra/http/services/IBaseService';
 import { IPagination, IPaginationAwareObject } from '@shared/infra/typeorm/core/Pagination';
 import { i18n } from '@shared/internationalization';
-import { AppLogger } from '@shared/logger';
 import { emailIsValid } from '@shared/utils/validations';
 
 import { IContactsRequestDTO } from '../dtos/IContactsDTO';
@@ -59,7 +53,7 @@ class ContactsServices implements IBaseService {
     }
 
     if (!emailIsValid(data.email)) {
-      throw new AppError(i18n('validations.invalid_email'));
+      throw new AppError(`${i18n('validations.invalid_email')} -> ${data.email}`);
     }
 
     if (data.tags && data?.tags?.length > 0) {
@@ -84,7 +78,7 @@ class ContactsServices implements IBaseService {
     data.subscribed = true;
     const checkEmail = await this._contactsRepository.findByEmail(data.email);
     if (checkEmail) {
-      throw new AppError(i18n('contact.existing_email'));
+      throw new AppError(`${i18n('contact.existing_email')} --> ${data.email}`);
     }
     const listTags = await this._tagsRepository.findByIds(data?.tags || []);
     const datas = { ...data, tags: listTags || [] };
@@ -104,7 +98,7 @@ class ContactsServices implements IBaseService {
     }
     const checkMail = await this._contactsRepository.findByEmail(data.email);
     if (checkMail && checkMail.id !== data.id) {
-      throw new AppError(i18n('contact.existing_email'));
+      throw new AppError(`${i18n('contact.existing_email')} --> ${data.email}`);
     }
     const listTags = await this._tagsRepository.findByIds(data?.tags || []);
     const datas = { ...data, tags: listTags || [] };
@@ -237,56 +231,6 @@ class ContactsServices implements IBaseService {
     );
   }
 
-  public async importCSV(request: Request): Promise<void> {
-    try {
-      const fileName = request?.file?.filename;
-      const { tags } = request.body;
-      if (!fileName) {
-        throw new AppError(i18n('validations.enter_the_data_file'));
-      }
-
-      const filePath = resolve(uploadConfig.tmpFolder, fileName);
-      if (!filePath) {
-        throw new AppError(i18n('validations.enter_the_data_file'));
-      }
-      const parsers = csvParse({
-        delimiter: '|',
-        trim: true,
-      });
-
-      const contactsFileStream = createReadStream(filePath);
-      const parseCSV = contactsFileStream.pipe(parsers);
-
-      parseCSV
-        .on('data', async line => {
-          try {
-            if (line) {
-              let email = line[0] ? (line[0] as string) : undefined;
-              let name = line[1] ? (line[1] as string) : undefined;
-              if (!email) return;
-              email = email.trim();
-              email = email.toLocaleLowerCase();
-              if (name) {
-                name = name.trim();
-              }
-              await this.storeOrUpdateByRequestPublicRepository(name, email, []);
-            }
-          } catch (error) {
-            AppLogger.error({ message: error });
-          }
-        })
-        .on('error', () => {
-          AppLogger.info({ message: 'ERROR' });
-        })
-        .on('end', () => {
-          AppLogger.info({ message: 'Acabou' });
-        });
-      // await new Promise(resolve => parseCSV.on('end', resolve));
-    } catch (error) {
-      AppLogger.info({ message: error });
-    }
-  }
-
   public async storeOrUpdateByRequestPublicRepository(
     name: string | undefined,
     email: string,
@@ -295,10 +239,14 @@ class ContactsServices implements IBaseService {
     if (!email) {
       throw new AppError(i18n('contact.enter_the_email_data'));
     }
+    if (name) {
+      name = name.trim();
+    }
+    email = email.trim().toLocaleLowerCase();
     let tagsId: (string | undefined)[] = [];
     if (tags && tags?.length > 0) {
-      const resultsPromise = tags.map(async (name: string) => {
-        const result = await this._tagsRepository.findByName(name);
+      const resultsPromise = tags.map(async (tag: string) => {
+        const result = await this._tagsRepository.findByName(tag.trim());
         return result;
       });
       const tagsResult = await Promise.all(resultsPromise);

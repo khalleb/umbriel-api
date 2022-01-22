@@ -82,6 +82,7 @@
     "the_status_of_the_contact_inscribe_could_not_changed": "Não foi possível alterar o status de inscrito",
     "contact_add_success": "Contato adicionado",
     "contact_update_success": "Contato alterado",
+    "imported_file": "Arquivo importado",
     "contact_add_fail": "Não foi possível salvar o contato, tente novamente"
   },
   "sender": {
