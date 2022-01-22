@@ -2,7 +2,6 @@ import { Request } from 'express';
 
 import csvParse from 'csv-parse';
 import { createReadStream } from 'fs';
-import { get } from 'lodash';
 import { resolve } from 'path';
 import { inject, injectable } from 'tsyringe';
 
@@ -239,33 +238,53 @@ class ContactsServices implements IBaseService {
   }
 
   public async importCSV(request: Request): Promise<void> {
-    const fileName = request?.file?.filename;
-    if (!fileName) {
-      throw new AppError(i18n('validations.enter_the_data_file'));
-    }
-
-    const filePath = resolve(uploadConfig.tmpFolder, fileName);
-    if (!filePath) {
-      throw new AppError(i18n('validations.enter_the_data_file'));
-    }
-    const parsers = csvParse({
-      delimiter: ';',
-    });
-
-    const contactsFileStream = createReadStream(filePath);
-    const parseCSV = contactsFileStream.pipe(parsers);
-
-    parseCSV.on('data', async line => {
-      try {
-        // const [email, name] = line;
-        const email = get(line, '[0]');
-        const name = line[1];
-        AppLogger.info({ message: email + name });
-      } catch (error) {
-        AppLogger.error({ message: error });
+    try {
+      const fileName = request?.file?.filename;
+      const { tags } = request.body;
+      if (!fileName) {
+        throw new AppError(i18n('validations.enter_the_data_file'));
       }
-    });
-    // await new Promise(resolve => parseCSV.on('end', resolve));
+
+      const filePath = resolve(uploadConfig.tmpFolder, fileName);
+      if (!filePath) {
+        throw new AppError(i18n('validations.enter_the_data_file'));
+      }
+      const parsers = csvParse({
+        delimiter: '|',
+        trim: true,
+      });
+
+      const contactsFileStream = createReadStream(filePath);
+      const parseCSV = contactsFileStream.pipe(parsers);
+
+      parseCSV
+        .on('data', async line => {
+          try {
+            if (line) {
+              let email = line[0] ? (line[0] as string) : undefined;
+              let name = line[1] ? (line[1] as string) : undefined;
+              if (!email) return;
+              email = email.trim();
+              email = email.toLocaleLowerCase();
+              if (name) {
+                name = name.trim();
+              }
+              await this.storeOrUpdateByRequestPublicRepository(name, email, []);
+            }
+          } catch (error) {
+            AppLogger.error({ message: error });
+          }
+        })
+        .on('error', () => {
+          AppLogger.info({ message: 'ERROR' });
+        })
+        .on('end', () => {
+          AppLogger.info({ message: 'Acabou' });
+        });
+      // await new Promise(resolve => parseCSV.on('end', resolve));
+    } catch (error) {
+      AppLogger.info({ message: error });
+    }
   }
 
   public async storeOrUpdateByRequestPublicRepository(

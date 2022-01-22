@@ -81,7 +81,13 @@ router.get(
   controller.inscribeDescribe,
 );
 
-router.post(`/${RoutesType.IMPORT}`, ensureAuthenticated, upload.single('file'), controller.import);
+router.post(
+  `/${RoutesType.IMPORT}`,
+  ensureAuthenticated,
+  celebrate({ [Segments.BODY]: { tags: Joi.string() } }),
+  upload.single('file'),
+  controller.import,
+);
 
 router.post(
   `/${RoutesType.STORE_PUBLIC}`,
