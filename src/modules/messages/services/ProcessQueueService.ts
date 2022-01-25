@@ -1,18 +1,20 @@
-import { inject, injectable } from 'tsyringe';
+import { autoInjectable, inject } from 'tsyringe';
 
+import { registerDependencies } from '@shared/container';
 import { IMailQueueProvider } from '@shared/container/providers/EmailQueueProvider/models/IMailQueueProvider';
 import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
 import { env } from '@shared/env';
 import { AppLogger } from '@shared/logger';
 
-@injectable()
+registerDependencies();
+@autoInjectable()
 class ProcessQueueService {
   constructor(
     @inject('EmailQueueProvider')
     private _queueProvider: IMailQueueProvider,
     @inject('MailProvider')
     private _mailProvider: IMailProvider,
-  ) {}
+  ) { }
 
   execute(): void {
     this._queueProvider.process(async ({ data: { sender, recipient, message } }) => {
