@@ -1,6 +1,7 @@
 import { Request } from 'express';
 
 import { inject, injectable } from 'tsyringe';
+import { validate as validateUUID } from 'uuid';
 
 import { ITagsRepository } from '@modules/tags/repositories';
 
@@ -73,12 +74,14 @@ class ContactsServices implements IBaseService {
     return contact;
   }
 
-  public async storeRepository(data: IContactsRequestDTO): Promise<Contacts> {
+  public async storeRepository(data: IContactsRequestDTO, validateEmail = true): Promise<Contacts> {
     data = this.datasValidate(data);
     data.subscribed = true;
-    const checkEmail = await this._contactsRepository.findByEmail(data.email);
-    if (checkEmail) {
-      throw new AppError(`${i18n('contact.existing_email')} --> ${data.email}`);
+    if (validateEmail) {
+      const checkEmail = await this._contactsRepository.findByEmail(data.email);
+      if (checkEmail) {
+        throw new AppError(`${i18n('contact.existing_email')} --> ${data.email}`);
+      }
     }
     const listTags = await this._tagsRepository.findByIds(data?.tags || []);
     const datas = { ...data, tags: listTags || [] };
@@ -92,13 +95,15 @@ class ContactsServices implements IBaseService {
     return contact;
   }
 
-  public async updateRepository(data: IContactsRequestDTO): Promise<Contacts> {
+  public async updateRepository(data: IContactsRequestDTO, validateEmail = true): Promise<Contacts> {
     if (!data.id) {
       throw new AppError(i18n('contact.enter_your_ID'));
     }
-    const checkMail = await this._contactsRepository.findByEmail(data.email);
-    if (checkMail && checkMail.id !== data.id) {
-      throw new AppError(`${i18n('contact.existing_email')} --> ${data.email}`);
+    if (validateEmail) {
+      const checkMail = await this._contactsRepository.findByEmail(data.email);
+      if (checkMail && checkMail.id !== data.id) {
+        throw new AppError(`${i18n('contact.existing_email')} --> ${data.email}`);
+      }
     }
     const listTags = await this._tagsRepository.findByIds(data?.tags || []);
     const datas = { ...data, tags: listTags || [] };
@@ -231,6 +236,22 @@ class ContactsServices implements IBaseService {
     );
   }
 
+  public async validateAndReturnTagID(tags: string[]): Promise<string[]> {
+    let tagsId: string[] = [];
+    if (!tags || tags.length <= 0) return tagsId;
+
+    const resultsPromiseTags = tags.map(async (idOrName: string) => {
+      const result = validateUUID(idOrName.trim())
+        ? await this._tagsRepository.findById(idOrName.trim())
+        : await this._tagsRepository.findByName(idOrName.trim());
+      return result;
+    });
+    const tagsResult = await Promise.all(resultsPromiseTags);
+    if (!tagsResult || tagsResult.length <= 0) return tagsId;
+    tagsId = tagsResult?.map(e => e?.id) as string[];
+    return tagsId;
+  }
+
   public async storeOrUpdateByRequestPublicRepository(
     name: string | undefined,
     email: string,
@@ -243,33 +264,25 @@ class ContactsServices implements IBaseService {
       name = name.trim();
     }
     email = email.trim().toLocaleLowerCase();
-    let tagsId: (string | undefined)[] = [];
-    if (tags && tags?.length > 0) {
-      const resultsPromise = tags.map(async (tag: string) => {
-        const result = await this._tagsRepository.findByName(tag.trim());
-        return result;
-      });
-      const tagsResult = await Promise.all(resultsPromise);
-      if (tagsResult && tagsResult.length > 0) {
-        tagsId = tagsResult.map(e => e?.id);
-      }
-    }
 
-    const existEmailBase = await this._contactsRepository.findByEmail(email);
-    if (existEmailBase?.id) {
-      const response = await this.updateRepository({
-        id: existEmailBase.id,
-        name,
-        email,
-        tags: tagsId as string[],
-        subscribed: true,
-      });
+    const existEmailBaseGetId = await this._contactsRepository.checkExistEmail(email);
+    if (existEmailBaseGetId) {
+      const response = await this.updateRepository(
+        {
+          id: existEmailBaseGetId,
+          name,
+          email,
+          tags,
+          subscribed: true,
+        },
+        false,
+      );
 
       if (response?.id) {
         return messageResponse(i18n('contact.contact_update_success'));
       }
     } else {
-      const response = await this.storeRepository({ name, email, tags: tagsId as string[], subscribed: true });
+      const response = await this.storeRepository({ name, email, tags, subscribed: true }, false);
 
       if (response?.id) {
         return messageResponse(i18n('contact.contact_add_success'));
@@ -279,19 +292,21 @@ class ContactsServices implements IBaseService {
   }
 
   public async storeOrUpdateByRequestPublic(request: Request): Promise<HttpResponseMessage> {
-    const { name, email, tags } = request.body;
+    const { name, email, tagsId } = request.body;
+    const tags = await this.validateAndReturnTagID(tagsId);
     const result = await this.storeOrUpdateByRequestPublicRepository(name, email, tags);
     return result;
   }
 
   public async inscribeDescribeByRequestPublic(request: Request): Promise<HttpResponseMessage> {
-    const { email, type, tags } = request.body;
+    const { email, type, tagsId } = request.body;
 
     if (!email) {
       throw new AppError(i18n('contact.enter_the_email_data'));
     }
     const existEmailBase = await this._contactsRepository.findByEmail(email);
     if (!existEmailBase) {
+      const tags = await this.validateAndReturnTagID(tagsId);
       await this.storeOrUpdateByRequestPublicRepository(undefined, email, tags);
     }
     const result = await this.inscribeDescribeByEmailRepository(email, type);

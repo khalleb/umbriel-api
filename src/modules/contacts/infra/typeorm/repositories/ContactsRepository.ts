@@ -40,6 +40,11 @@ class ContactsRepository extends BaseRepository<Contacts> implements IContactsRe
     const result = await this.ormRepository.findOne({ email });
     return !!result;
   }
+
+  public async checkExistEmail(email: string): Promise<string | undefined> {
+    const response = await this.ormRepository.findOne({ select: ['id'], where: { email } });
+    return response?.id;
+  }
 }
 
 export { ContactsRepository };

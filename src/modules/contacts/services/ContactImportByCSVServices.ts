@@ -42,6 +42,7 @@ class ContactImportByCSVServices {
       let totalErrors = 0;
       let totalImporteds = 0;
       const errosToReturn: string[] = [];
+      const tagsValidate = tags ? await this._contactsServices.validateAndReturnTagID(tags.split(';')) : [];
       const handleStream = new Transform({
         transform: async (chunk, encoding, cb) => {
           try {
@@ -59,7 +60,7 @@ class ContactImportByCSVServices {
               const result = await this._contactsServices.storeOrUpdateByRequestPublicRepository(
                 name,
                 email,
-                tags.split(';'),
+                tagsValidate,
               );
               return result;
             });
