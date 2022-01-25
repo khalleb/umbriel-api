@@ -10,8 +10,8 @@ services:
       - ${APP_API_PORT}:${APP_API_PORT}
       - ${APP_API_PORT_WEEBHOOK}:${APP_API_PORT_WEEBHOOK}
     networks:
-      - app-net
+      - umbriel-net
 
 networks:
-  app-net:
+  umbriel-net:
     driver: bridge

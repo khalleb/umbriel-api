@@ -7,6 +7,7 @@ export const redisConnection = new Redis({
   port: Number(env.REDIS_PORT),
   password: env.REDIS_PASS,
   db: Number(env.REDIS_DB),
+  connectTimeout: 30000,
 });
 
 interface ICacheConfig {
