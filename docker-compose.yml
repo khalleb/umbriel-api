@@ -1,5 +1,20 @@
 version: '3.7'
 services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - $HOME/docker-volume/postgresql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+    networks:
+      - umbriel-net
+
   redis:
     image: redis:latest
     container_name: redis
@@ -8,7 +23,39 @@ services:
     ports:
       - ${REDIS_PORT}:6379
     volumes:
-      - $HOME/docker-volumes/redis:/data
+      - $HOME/docker-volume/redis:/data
+    networks:
+      - umbriel-net
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+    volumes:
+      - $HOME/docker-volume/zookeeper:/bitnami
+    environment:
+      - ZOO_ENABLE_AUTH=yes
+      - ZOO_SERVER_USERS=${ZOOKEEPER_USERS}
+      - ZOO_SERVER_PASSWORDS=${ZOOKEEPER_PASSWORDS}
+    networks:
+      - umbriel-net
+
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    ports:
+      - 9092:9092
+    volumes:
+      - $HOME/docker-volume/kafka:/bitnami
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ZOOKEEPER_USER=${ZOOKEEPER_USERS}
+      - KAFKA_ZOOKEEPER_PASSWORD=${ZOOKEEPER_PASSWORDS}
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
     networks:
       - umbriel-net
 

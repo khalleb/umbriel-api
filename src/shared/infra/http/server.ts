@@ -118,10 +118,9 @@ class Server {
 
     this.app
       .listen(env.APP_API_PORT, () => {
-        AppLogger.warn({
-          message: `🚀 Server ${nameProject().toUpperCase()} started on port ${
-            env.APP_API_PORT
-          } in mode ${getEnvironment()} - VERSION: ${getVersion()}`,
+        AppLogger.info({
+          message: `🚀 Server ${nameProject().toUpperCase()} started on port ${env.APP_API_PORT
+            } in mode ${getEnvironment()} - VERSION: ${getVersion()}`,
         });
       })
       .on('error', error => {
