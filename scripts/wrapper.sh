@@ -1,3 +1,7 @@
 #!/bin/sh
 
-./server.sh
+./server.sh &
+
+./queue.sh &
+
+./webhook.sh

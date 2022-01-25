@@ -1,7 +1,7 @@
 /* eslint-disable no-new */
 import { Queue, Worker, Processor, QueueScheduler } from 'bullmq';
 
-import { redisConnection } from '@config/cache';
+import { cacheConfig } from '@config/cache';
 
 import { IDeliverMessageJob } from '../dtos/IEmailQueueDTO';
 import { IMailQueueProvider } from '../models/IMailQueueProvider';
@@ -11,7 +11,7 @@ export class BullProvider implements IMailQueueProvider {
 
   constructor() {
     this.queue = new Queue('mail-queue', {
-      connection: redisConnection,
+      connection: cacheConfig.config.redis,
       defaultJobOptions: {
         removeOnComplete: true,
         attempts: 5,
@@ -36,7 +36,7 @@ export class BullProvider implements IMailQueueProvider {
 
   process(processFunction: Processor<IDeliverMessageJob>): void {
     new Worker('mail-queue', processFunction, {
-      connection: redisConnection,
+      connection: cacheConfig.config.redis,
       concurrency: 150,
       limiter: {
         max: 150,
@@ -45,7 +45,7 @@ export class BullProvider implements IMailQueueProvider {
     });
 
     new QueueScheduler('mail-queue', {
-      connection: redisConnection,
+      connection: cacheConfig.config.redis,
     });
   }
 }

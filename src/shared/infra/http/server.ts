@@ -59,7 +59,7 @@ class Server {
   private middlewares() {
     // Protects from DDoS and brute force attacks
     if (!env.isDevelopment) {
-      this.app.use(rateLimiter);
+      // this.app.use(rateLimiter);
     }
 
     // enable cors
