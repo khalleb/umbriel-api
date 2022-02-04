@@ -1,7 +1,5 @@
 version: '3.7'
 services:
-  # Application
-
   umbriel-api:
     image: umbriel-api
     container_name: umbriel-api
