@@ -1,4 +1,3 @@
 #!/bin/sh
-(cd /usr/app && yarn typeorm-run)
-(cd /usr/app && yarn seed:run)
-(cd /usr/app && yarn start:server)
+(cd /home/node/app && yarn prod:migration)
+(cd /home/node/app && yarn start:server)

@@ -45,7 +45,7 @@ app.use(routes);
 
 app
   .listen(env.APP_API_PORT_WEEBHOOK, () => {
-    AppLogger.info({ message: `🚀 Webhook started on port ${env.APP_API_PORT_WEEBHOOK}` });
+    AppLogger.info({ message: `👀 WEBHOOK STARTED ON PORT ${env.APP_API_PORT_WEEBHOOK}` });
   })
   .on('error', error => {
     AppLogger.error({

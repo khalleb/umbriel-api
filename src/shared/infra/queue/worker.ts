@@ -9,4 +9,4 @@ import { AppLogger } from '@shared/logger';
 const processQueue = container.resolve(ProcessQueueService);
 
 processQueue.execute();
-AppLogger.info({ message: `🚀 SERVER UMBRIEL QUEUE STARTED` });
+AppLogger.info({ message: `👽 QUEUE STARTED SERVER UMBRIEL` });

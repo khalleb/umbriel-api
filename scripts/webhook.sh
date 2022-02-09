@@ -1,2 +1,2 @@
 #!/bin/sh
-(cd /usr/app && yarn start:webhook)
+(cd /home/node/app && yarn start:webhook)
