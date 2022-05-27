@@ -1,14 +1,19 @@
 FROM node:lts-alpine AS umbriel-dev-dependencies
 WORKDIR /usr/app
+RUN yarn cache clean
+RUN yarn config delete proxy
+RUN yarn config delete https-proxy
+RUN yarn config delete registry
+
 COPY package.json yarn.* tsconfig.json ./
 COPY ./src ./src
-RUN yarn install --production=false --frozen-lockfile
+RUN yarn install --network-timeout 1000000 --production=false --frozen-lockfile
 
 FROM node:lts-alpine AS umbriel-dependencies
 WORKDIR /usr/app
 COPY package.json yarn.* ./
 COPY ./src ./src
-RUN yarn install --production=true --frozen-lockfile
+RUN yarn install --network-timeout 1000000 --production=true --frozen-lockfile
 
 FROM node:lts-alpine AS umbriel-build
 WORKDIR /usr/app
